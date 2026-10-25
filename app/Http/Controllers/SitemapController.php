@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Services\RegionalService;
+use App\Services\SchemeService;
 use Illuminate\Http\Response;
 
 class SitemapController extends Controller
@@ -11,7 +12,7 @@ class SitemapController extends Controller
     /**
      * Generate dynamic XML sitemap.
      */
-    public function index(RegionalService $regional): Response
+    public function index(RegionalService $regional, SchemeService $schemes): Response
     {
         $urls = [];
 
@@ -30,8 +31,8 @@ class SitemapController extends Controller
             'priority' => '0.8',
         ];
 
-        // 2. All 22 Services
-        $programs = config('programs', []);
+        // 2. Catalog schemes
+        $programs = $schemes->all();
         foreach ($programs as $slug => $item) {
             $urls[] = [
                 'loc' => route('program.show', $slug),

@@ -7,7 +7,7 @@
 @php
     $regionalService = resolve(App\Services\RegionalService::class);
     $provinces = $regionalService->getAllProvinces();
-    $allPrograms = config('programs', []);
+    $allPrograms = app(\App\Services\SchemeService::class)->all();
 @endphp
 
     <!-- HERO SECTION (LIGHT SURFACE) -->

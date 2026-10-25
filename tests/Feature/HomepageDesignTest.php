@@ -11,7 +11,7 @@ class HomepageDesignTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('K3 Listrik');
+        $response->assertSee('Perunggasan Jenjang 5');
     }
 
     public function test_homepage_includes_accessible_landmarks(): void
@@ -35,9 +35,9 @@ class HomepageDesignTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('Training Ahli K3 Listrik');
-        $response->assertSee('Training Teknisi K3 Listrik');
-        $response->assertSee('Kelistrikan Building');
+        $response->assertSee('Perunggasan Jenjang 5');
+        $response->assertSee('Perunggasan Jenjang 6');
+        $response->assertSee('FASILITATOR PERTANIAN ORGANIK TANAMAN');
 
         // Verify no stale SIO/alat-berat references on homepage
         $response->assertDontSee('Sertifikasi SIO');

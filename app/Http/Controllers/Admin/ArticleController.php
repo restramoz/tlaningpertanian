@@ -8,6 +8,7 @@ use App\Services\HtmlSanitizerService;
 use App\Services\ImageUploadService;
 use App\Services\OllamaService;
 use App\Services\RegionalService;
+use App\Services\SchemeService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ use Illuminate\View\View;
 
 class ArticleController extends Controller
 {
+    public function __construct(private readonly SchemeService $schemes) {}
     /**
      * Display a listing of articles with optional filters.
      */
@@ -46,10 +48,10 @@ class ArticleController extends Controller
     /**
      * Show the form for creating a new article (with AI generator).
      */
-    public function create(RegionalService $regionalService): View
+    public function create(RegionalService $regionalService, SchemeService $schemeService): View
     {
         $cities = $regionalService->getAllCities();
-        $programs = config('programs', []);
+        $programs = $schemeService->all();
 
         return view('admin.articles.create', compact('cities', 'programs'));
     }
@@ -304,7 +306,7 @@ class ArticleController extends Controller
             'word_count' => 'required|integer|min:6000|max:9000',
             'topic' => 'nullable|string|max:255',
             // Optional service-aware generation: must reference a catalog entry.
-            'service_slug' => ['nullable', 'string', Rule::in(array_keys(config('programs', [])))],
+            'service_slug' => ['nullable', 'string', Rule::in(array_keys($this->schemes->all()))],
         ]);
 
         $city = $regionalService->findCity($validated['city_slug']);

@@ -11,23 +11,23 @@ class CityProgramDetailTest extends TestCase
      */
     public function test_main_programs_render_canonical_content_with_city_context(): void
     {
-        // 1. Training Ahli K3 Listrik in Bandung
-        $response = $this->get(route('city.program.detail', ['city' => 'bandung', 'program' => 'training-ahli-k3-listrik']));
+        // 1. Perunggasan Jenjang 5 in Bandung
+        $response = $this->get(route('city.program.detail', ['city' => 'bandung', 'program' => 'perunggasan-jenjang-5']));
         $response->assertStatus(200);
-        $response->assertSee('Ahli K3 Listrik');
+        $response->assertSee('Perunggasan Jenjang 5');
         $content = $response->getContent();
         // Should not show placeholder text
         $this->assertFalse(strpos($content, 'Konten detail program belum tersedia.') !== false);
 
-        // 2. Training Teknisi K3 Listrik in Malang
-        $response2 = $this->get(route('city.program.detail', ['city' => 'malang', 'program' => 'training-teknisi-k3-listrik']));
+        // 2. Perunggasan Jenjang 6 in Malang
+        $response2 = $this->get(route('city.program.detail', ['city' => 'malang', 'program' => 'perunggasan-jenjang-6']));
         $response2->assertStatus(200);
-        $response2->assertSee('Teknisi K3 Listrik');
+        $response2->assertSee('Perunggasan Jenjang 6');
 
-        // 3. Kelistrikan Building in Surabaya
-        $response3 = $this->get(route('city.program.detail', ['city' => 'surabaya', 'program' => 'training-kelistrikan-building']));
+        // 3. FASILITATOR PERTANIAN ORGANIK TANAMAN in Surabaya
+        $response3 = $this->get(route('city.program.detail', ['city' => 'surabaya', 'program' => 'fasilitator-pertanian-organik-tanaman']));
         $response3->assertStatus(200);
-        $response3->assertSee('Kelistrikan Building');
+        $response3->assertSee('FASILITATOR PERTANIAN ORGANIK TANAMAN');
     }
 
     /**
@@ -35,9 +35,9 @@ class CityProgramDetailTest extends TestCase
      */
     public function test_full_program_slugs_resolve_correctly(): void
     {
-        $response = $this->get(route('city.program.detail', ['city' => 'bandung', 'program' => 'training-ahli-k3-listrik']));
+        $response = $this->get(route('city.program.detail', ['city' => 'bandung', 'program' => 'perunggasan-jenjang-5']));
         $response->assertStatus(200);
-        $response->assertSee('Training');
+        $response->assertSee('Perunggasan Jenjang 5');
     }
 
     /**
@@ -45,7 +45,7 @@ class CityProgramDetailTest extends TestCase
      */
     public function test_invalid_city_returns_404(): void
     {
-        $response = $this->get(route('city.program.detail', ['city' => 'nonexistent-city', 'program' => 'training-ahli-k3-listrik']));
+        $response = $this->get(route('city.program.detail', ['city' => 'nonexistent-city', 'program' => 'perunggasan-jenjang-5']));
         $response->assertStatus(404);
     }
 

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Services\RegionalService;
+use App\Services\SchemeService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class RegionalController extends Controller
 {
-    public function __construct(private readonly RegionalService $regional) {}
+    public function __construct(private readonly RegionalService $regional, private readonly SchemeService $schemes) {}
 
     /**
      * Province landing page: /provinsi/{slug}
@@ -25,7 +26,7 @@ class RegionalController extends Controller
 
         return view('regional.province', [
             'province' => $province,
-            'programs' => config('programs', []),
+            'programs' => $this->schemes->all(),
             'waMessage' => $waMessage,
         ]);
     }
@@ -61,7 +62,7 @@ class RegionalController extends Controller
         return view('regional.city', [
             'city' => $city,
             'nearbyCities' => $nearbyCities,
-            'programs' => config('programs', []),
+            'programs' => $this->schemes->all(),
             'articles' => $articles,
             'waMessage' => $waMessage,
         ]);
@@ -97,7 +98,7 @@ class RegionalController extends Controller
 
         return view('regional.district', [
             'district' => $district,
-            'programs' => config('programs', []),
+            'programs' => $this->schemes->all(),
             'articles' => $articles,
             'waMessage' => $waMessage,
         ]);

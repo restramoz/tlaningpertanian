@@ -3,46 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Services\RegionalService;
+use App\Services\SchemeService;
 use Illuminate\Contracts\View\View;
 
 class ProgramController extends Controller
 {
-    /**
-     * Map of shorthand aliases to canonical program keys.
-     */
-    protected array $aliasMap = [
-        'ahli-k3-listrik'   => 'training-ahli-k3-listrik',
-        'teknisi-k3-listrik'=> 'training-teknisi-k3-listrik',
-        'inspektur-listrik' => 'training-inspektur-listrik',
-        'pengawas-listrik'  => 'training-pengawas-listrik',
-        'supervisor-listrik'=> 'training-supervisor-listrik',
-        'manager-listrik'   => 'training-manager-listrik',
-        'plc'               => 'training-listrik-plc',
-        'non-plc'           => 'training-listrik-non-plc',
-        'scada'             => 'training-listrik-scada',
-        'grounding'         => 'training-instalasi-listrik-grounding',
-        'tenaga-surya'      => 'training-listrik-tenaga-surya',
-        'otomasi'           => 'training-otomasi-industri',
-    ];
+    public function __construct(private readonly SchemeService $schemes) {}
 
     /**
      * Display the specified program or service page by slug.
      */
     public function show(string $slug): View
     {
-        $programs = config('programs', []);
+        $program = $this->schemes->find($slug);
 
-        $resolvedSlug = isset($programs[$slug]) ? $slug : ($this->aliasMap[$slug] ?? null);
-
-        if ($resolvedSlug === null || ! isset($programs[$resolvedSlug])) {
+        if ($program === null) {
             abort(404, 'Layanan atau program pelatihan tidak ditemukan.');
         }
 
-        $program = $programs[$resolvedSlug];
-
-        // Recommend related programs in the same category or overall
-        $relatedPrograms = collect($programs)
-            ->filter(fn (array $p, string $key): bool => $key !== $resolvedSlug)
+        // Recommend related schemes from the same authoritative catalog
+        $relatedPrograms = collect($this->schemes->all())
+            ->filter(fn (array $p, string $key): bool => $key !== $program['slug'])
             ->values()
             ->take(6)
             ->all();
@@ -58,23 +39,19 @@ class ProgramController extends Controller
      * Display a city-specific service detail page preserving regional context.
      *
      * @param string $city      Slug of the city/regency (e.g. "bandung", "kab-bekasi")
-     * @param string $program   Service identifier (e.g. "training-plb3", "jasa-pertek-K3")
+     * @param string $program   Catalog slug (e.g. "perunggasan-jenjang-5")
      */
     public function cityProgram(string $city, string $program, RegionalService $regional): View
     {
         $cityData = $regional->findCity($city);
         abort_if($cityData === null, 404, 'Kota/Kabupaten tidak ditemukan.');
 
-        $programs = config('programs', []);
+        $programData = $this->schemes->find($program);
 
-        // Direct key lookup
-        $configKey = isset($programs[$program]) ? $program : ($this->aliasMap[$program] ?? null);
+        abort_if($programData === null, 404, 'Layanan tidak ditemukan.');
 
-        abort_if($configKey === null || ! isset($programs[$configKey]), 404, 'Layanan tidak ditemukan.');
-        $programData = $programs[$configKey];
-
-        $relatedPrograms = collect($programs)
-            ->filter(fn (array $p, string $key): bool => $key !== $configKey)
+        $relatedPrograms = collect($this->schemes->all())
+            ->filter(fn (array $p, string $key): bool => $key !== $programData['slug'])
             ->values()
             ->take(6)
             ->all();

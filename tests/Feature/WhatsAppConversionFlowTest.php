@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Services\SchemeService;
 use Tests\TestCase;
 
 class WhatsAppConversionFlowTest extends TestCase
@@ -62,36 +63,22 @@ class WhatsAppConversionFlowTest extends TestCase
         $response = $this->get('/');
         $response->assertStatus(200);
 
-        $ahliListrikMsg = rawurlencode(config('programs.training-ahli-k3-listrik.wa_message'));
-        $teknisiListrikMsg = rawurlencode(config('programs.training-teknisi-k3-listrik.wa_message'));
-        $buildingMsg = rawurlencode(config('programs.training-kelistrikan-building.wa_message'));
-
-        $response->assertSee('https://wa.me/6281299887766?text=' . $ahliListrikMsg, false);
-        $response->assertSee('https://wa.me/6281299887766?text=' . $teknisiListrikMsg, false);
-        $response->assertSee('https://wa.me/6281299887766?text=' . $buildingMsg, false);
+        $schemes = array_slice(app(SchemeService::class)->all(), 0, 3, true);
+        foreach ($schemes as $scheme) {
+            $response->assertSee('https://wa.me/6281299887766?text=' . rawurlencode($scheme['wa_message']), false);
+        }
     }
 
     public function test_program_pages_produce_contextual_messages_across_all_page_ctas(): void
     {
         config(['services.whatsapp.phone' => '085544332211']);
 
-        $programs = [
-            [
-                'route' => 'program.show',
-                'slug' => 'training-ahli-k3-listrik',
-                'message' => config('programs.training-ahli-k3-listrik.wa_message'),
-            ],
-            [
-                'route' => 'program.show',
-                'slug' => 'training-teknisi-k3-listrik',
-                'message' => config('programs.training-teknisi-k3-listrik.wa_message'),
-            ],
-            [
-                'route' => 'program.show',
-                'slug' => 'training-kelistrikan-building',
-                'message' => config('programs.training-kelistrikan-building.wa_message'),
-            ],
-        ];
+        $schemes = array_slice(app(SchemeService::class)->all(), 0, 3, true);
+        $programs = array_map(static fn (array $scheme): array => [
+            'route' => 'program.show',
+            'slug' => $scheme['slug'],
+            'message' => $scheme['wa_message'],
+        ], $schemes);
 
         foreach ($programs as $program) {
             $response = $this->get(route($program['route'], $program['slug']));
@@ -141,7 +128,7 @@ class WhatsAppConversionFlowTest extends TestCase
 
     public function test_no_real_contact_numbers_or_secrets_are_exposed(): void
     {
-        $pages = ['/', route('program.show', 'training-ahli-k3-listrik'), route('program.show', 'training-teknisi-k3-listrik'), route('program.show', 'training-kelistrikan-building')];
+        $pages = ['/', route('program.show', 'perunggasan-jenjang-5'), route('program.show', 'perunggasan-jenjang-6'), route('program.show', 'fasilitator-pertanian-organik-tanaman')];
 
         foreach ($pages as $url) {
             $response = $this->get($url);
