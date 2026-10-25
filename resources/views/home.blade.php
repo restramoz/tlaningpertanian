@@ -4,7 +4,11 @@
 @section('meta_description', 'Katalog skema kompetensi dan program pelatihan pertanian: rincian unit kompetensi, penyelenggara, serta layanan konsultasi untuk kebutuhan pertanian dan agribisnis.')
 
 @section('content')
+<noscript>
+    <style>.scheme-extra[hidden]{display:block!important;}</style>
+</noscript>
 @php
+    $regionalService = resolve(App\Services\RegionalService::class);
     $regionalService = resolve(App\Services\RegionalService::class);
     $provinces = $regionalService->getAllProvinces();
     $allPrograms = app(\App\Services\SchemeService::class)->all();
@@ -26,6 +30,9 @@
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-28">
             <div class="max-w-3xl">
+                <div class="lg:hidden mb-8">
+                    <img src="{{ asset('images/home/hero.webp') }}" alt="Aktivitas pertanian Indonesia: petani bekerja di sawah" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" class="w-full rounded-2xl shadow-xl object-cover aspect-video" />
+                </div>
                 <!-- Focus Badge -->
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dark-mahogany text-white text-xs sm:text-sm font-semibold mb-6 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-safety-orange animate-pulse"></span>
@@ -50,6 +57,9 @@
                     </x-button>
                 </div>
 
+                <div class="hidden lg:block">
+                    <img src="{{ asset('images/home/hero.webp') }}" alt="Aktivitas pertanian Indonesia: petani bekerja di sawah" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" class="w-full rounded-2xl shadow-xl object-cover aspect-video" />
+                </div>
                 <!-- Value Highlights Grid -->
                 <div class="mt-12 pt-8 border-t border-neutral-300 grid grid-cols-2 sm:grid-cols-4 gap-6">
                     <div>
@@ -73,64 +83,133 @@
         </div>
     </section>
 
-    <!-- SECTION 1: SKEMA KOMPETENSI & PROGRAM PELATIHAN -->
-    <section id="pelatihan" class="py-16 sm:py-24 bg-white" aria-labelledby="pelatihan-heading">
+@php
+    $ambasisi = [];
+    $lspNusantara = [];
+    foreach ($allPrograms as $slug => $item) {
+        if (($item['lsp'] ?? null) === null) {
+            $ambasisi[$slug] = $item;
+        } elseif (($item['lsp'] ?? '') === 'LSP Pertanian Nusantara') {
+            $lspNusantara[$slug] = $item;
+        }
+    }
+@endphp
+
+    <!-- SECTION 1A: SKEMA KOMPETENSI AGRIBISNIS AMBASISI -->
+    <section id="skema-agribisnis" data-scheme-section="agribisnis" class="py-16 sm:py-24 bg-white" aria-labelledby="agribisnis-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-14">
-                <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-burnt-brick bg-neutral-100 px-3 py-1 rounded-full border border-burnt-brick/20">
-                    Katalog Program
-                </span>
-                <h2 id="pelatihan-heading" class="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-industry-black tracking-tight">
-                    Skema Kompetensi &amp; Program Pelatihan
-                </h2>
-                <p class="mt-4 text-base text-dark-mahogany">
-                    Katalog diambil langsung dari daftar skema kompetensi yang tersedia: setiap skema menampilkan unit kompetensi beserta kode unit, dan rincian penyelenggaraan dikonfirmasi melalui konsultasi.
-                </p>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-10">
+                <div class="lg:col-span-2 text-center lg:text-left">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-burnt-brick bg-neutral-100 px-3 py-1 rounded-full border border-burnt-brick/20">
+                        Katalog Skema
+                    </span>
+                    <h2 id="agribisnis-heading" class="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-industry-black tracking-tight">
+                        Skema Kompetensi Agribisnis Ambasisi
+                    </h2>
+                    <p class="mt-4 text-base text-dark-mahogany leading-relaxed">
+                        Kelompok utama berisi {{ count($ambasisi) }} skema kompetensi pertanian dari sumber Agribisnis Ambasisi. Data menampilkan 6 skema terlebih dahulu; pilih "Lihat Semua Skema" untuk melihat seluruhnya.
+                    </p>
+                </div>
+                <div class="hidden md:block">
+                    <img src="{{ asset('images/home/agribisnis.webp') }}" alt="Aktivitas pertanian dan pengembangan kompetensi agribisnis" width="900" height="600" loading="lazy" decoding="async" class="w-full rounded-2xl shadow-md object-cover aspect-[3/2]" />
+                </div>
             </div>
 
-            <!-- Program Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-                @foreach($allPrograms as $slug => $item)
-                    <div class="flex flex-col bg-white rounded-xl border border-neutral-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
-                        <div class="h-2 bg-safety-orange"></div>
-                        <div class="p-6 sm:p-7 flex-1 flex flex-col">
-                            <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-burnt-brick mb-2">
-                                <span>{{ $item['level'] }}</span>
-                                <span class="text-[10px] bg-neutral-100 text-dark-mahogany px-2 py-0.5 rounded font-semibold border border-neutral-200">{{ $item['badge'] ?? 'Skema Kompetensi' }}</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="grid-agribisnis">
+                @foreach($ambasisi as $slug => $item)
+                    @php $extra = $loop->iteration > 6; @endphp
+                    <div class="scheme-card {{ $extra ? 'scheme-extra' : '' }} flex flex-col bg-white rounded-xl border border-neutral-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden group" data-scheme-slug="{{ $slug }}" data-scheme-category="agribisnis" data-unit-count="{{ count($item['units']) }}" @if($extra) hidden @endif>
+                        <div class="h-1.5 bg-burnt-brick"></div>
+                        <div class="p-5 flex-1 flex flex-col">
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="text-xs font-bold uppercase tracking-wider text-dark-mahogany break-words">{{ $item['lsp'] ?: 'Agribisnis Ambasisi' }}</span>
+                                <span class="text-[10px] bg-neutral-100 text-dark-mahogany px-2 py-0.5 rounded font-semibold border border-neutral-200 shrink-0">{{ count($item['units']) }} unit</span>
                             </div>
-                            <h3 class="text-xl font-bold text-industry-black mb-3 group-hover:text-burnt-brick transition-colors">
+                            <h3 class="text-base font-bold text-industry-black mb-2 group-hover:text-burnt-brick transition-colors break-words">
                                 {{ $item['title'] }}
                             </h3>
-                            <p class="text-sm text-dark-mahogany leading-relaxed mb-6">
-                                {{ Str::limit($item['introduction'], 140) }}
+                            <p class="text-xs text-dark-mahogany mb-4">
+                                {{ count($item['units']) }} unit kompetensi
                             </p>
-
-                            @if(!empty($item['curriculum_topics']) && count($item['curriculum_topics']) > 0)
-                            <div class="mt-auto pt-4 border-t border-neutral-200 space-y-2 mb-6">
-                                <div class="text-xs font-bold text-dark-mahogany uppercase tracking-wider">Cakupan Materi Utama:</div>
-                                <ul class="text-xs text-dark-mahogany space-y-1.5" role="list">
-                                    @foreach(array_slice($item['curriculum_topics'], 0, 3) as $topic)
-                                        <li class="flex items-start gap-2">
-                                            <svg class="w-4 h-4 text-burnt-brick shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                                            <span>{{ Str::limit($topic, 50) }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @endif
-
-                            <div class="space-y-2.5 mt-auto">
-                                <x-wa-cta variant="secondary" size="md" :message="$item['wa_message']" :label="'Konsultasi ' . $item['title']" class="w-full justify-center" />
+                            <div class="space-y-2 mt-auto">
+                                <x-wa-cta variant="secondary" size="md" :message="$item['wa_message']" :label="'Konsultasi ' . $item['title']" class="w-full justify-center text-xs" />
                                 <a href="{{ route('program.show', $slug) }}" class="inline-flex items-center justify-center w-full text-xs font-bold text-burnt-brick hover:text-safety-orange transition-colors py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-burnt-brick rounded">
-                                    Detail Silabus &amp; Info Program &rarr;
+                                    Detail Skema &amp; Unit &rarr;
                                 </a>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
+
+            <div class="mt-10 text-center">
+                <button type="button" class="js-show-all inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-burnt-brick hover:bg-leaf rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-burnt-brick transition-colors" aria-expanded="false" data-extra-count="{{ max(0, count($ambasisi) - 6) }}">
+                    Lihat Semua Skema
+                </button>
+                <p class="mt-3 text-xs text-dark-mahogany">
+                    Menampilkan 6 dari {{ count($ambasisi) }} skema. Saat diperluas, seluruh {{ count($ambasisi) }} skema tampil; pilih tombol yang sama untuk menampilkan lebih sedikit.
+                </p>
+            </div>
         </div>
     </section>
+
+    <!-- SECTION 1B: SKEMA KOMPETENSI LSP PERTANIAN NUSANTARA -->
+    <section id="skema-lsp-nusantara" data-scheme-section="lsp-pertanian-nusantara" class="py-16 sm:py-24 bg-neutral-50 border-t border-neutral-200" aria-labelledby="lsp-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-10">
+                <div class="lg:col-span-2 text-center lg:text-left">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-burnt-brick bg-white px-3 py-1 rounded-full border border-burnt-brick/20">
+                        Skema Terkait LSP
+                    </span>
+                    <h2 id="lsp-heading" class="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-industry-black tracking-tight">
+                        Skema Kompetensi LSP Pertanian Nusantara
+                    </h2>
+                    <p class="mt-4 text-base text-dark-mahogany leading-relaxed">
+                        Kelompok kedua berisi {{ count($lspNusantara) }} skema yang berasosiasi dengan LSP Pertanian Nusantara. Tidak ada hubungan lisensi/akreditasi yang diklaim; field lsp hanya menunjukkan asosiasi sumber.
+                    </p>
+                </div>
+                <div class="hidden md:block">
+                    <img src="{{ asset('images/home/lsp.webp') }}" alt="Konteks pelatihan pertanian dan pengembangan kompetensi" width="900" height="600" loading="lazy" decoding="async" class="w-full rounded-2xl shadow-md object-cover aspect-[3/2]" />
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="grid-lsp-nusantara">
+                @foreach($lspNusantara as $slug => $item)
+                    <div class="scheme-card flex flex-col bg-white rounded-xl border border-neutral-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden group" data-scheme-slug="{{ $slug }}" data-scheme-category="lsp-pertanian-nusantara" data-unit-count="{{ count($item['units']) }}">
+                        <div class="h-1.5 bg-leaf"></div>
+                        <div class="p-5 flex-1 flex flex-col">
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="text-xs font-bold uppercase tracking-wider text-dark-mahogany break-words">{{ $item['lsp'] }}</span>
+                                <span class="text-[10px] bg-neutral-100 text-dark-mahogany px-2 py-0.5 rounded font-semibold border border-neutral-200 shrink-0">{{ count($item['units']) }} unit</span>
+                            </div>
+                            <h3 class="text-base font-bold text-industry-black mb-2 group-hover:text-burnt-brick transition-colors break-words">
+                                {{ $item['title'] }}
+                            </h3>
+                            <p class="text-xs text-dark-mahogany mb-4">
+                                {{ count($item['units']) }} unit kompetensi
+                            </p>
+                            <div class="space-y-2 mt-auto">
+                                <x-wa-cta variant="secondary" size="md" :message="$item['wa_message']" :label="'Konsultasi ' . $item['title']" class="w-full justify-center text-xs" />
+                                <a href="{{ route('program.show', $slug) }}" class="inline-flex items-center justify-center w-full text-xs font-bold text-leaf hover:text-burnt-brick transition-colors py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-burnt-brick rounded">
+                                    Detail Skema &amp; Unit &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="mt-10 text-center">
+                <button type="button" class="js-show-all inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-dark-mahogany bg-neutral-200 hover:bg-neutral-300 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-burnt-brick transition-colors" aria-expanded="true" aria-disabled="true" disabled data-extra-count="0">
+                    Lihat Semua Skema
+                </button>
+                <p class="mt-3 text-xs text-dark-mahogany">
+                    Semua {{ count($lspNusantara) }} skema sudah ditampilkan sejak awal; tombol ini hanya penanda konsistensi katalog.
+                </p>
+            </div>
+        </div>
+    </section>
+
 
     <!-- KEUNGGULAN SECTION -->
     <section id="keunggulan" class="py-16 sm:py-24 bg-neutral-50 border-t border-neutral-200" aria-labelledby="keunggulan-heading">
@@ -147,6 +226,9 @@
                 </p>
             </div>
 
+            <div class="mb-8 hidden md:block">
+                <img src="{{ asset('images/home/training.webp') }}" alt="Pembinaan dan pelatihan kompetensi pertanian" width="900" height="600" loading="lazy" decoding="async" class="w-full rounded-2xl shadow-md object-cover aspect-[3/1]" />
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Pillar 1 -->
                 <div class="p-6 rounded-xl bg-white border border-neutral-200 shadow-sm hover:shadow-md transition">
@@ -268,6 +350,9 @@
             <span class="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider text-safety-orange bg-industry-black rounded-full border border-dark-mahogany mb-4">
                 Konsultasi &amp; Pendaftaran Program
             </span>
+            <div class="mb-8 hidden md:block">
+                <img src="{{ asset('images/home/consult.webp') }}" alt="Konsultasi pengembangan kompetensi pertanian" width="900" height="600" loading="lazy" decoding="async" class="mx-auto w-full max-w-2xl rounded-2xl shadow-xl object-cover aspect-[3/2]" />
+            </div>
             <h2 id="cta-heading" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight uppercase">
                 Bangun Kompetensi Pertanian Tim Anda
             </h2>
