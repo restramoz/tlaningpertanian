@@ -22,7 +22,7 @@ class RegionalController extends Controller
 
         abort_if($province === null, 404, 'Provinsi tidak ditemukan.');
 
-        $waMessage = "Halo, saya dari Provinsi {$province['name']} dan ingin konsultasi mengenai pelatihan K3 Listrik.";
+        $waMessage = "Halo, saya dari Provinsi {$province['name']} dan ingin konsultasi mengenai skema kompetensi pertanian.";
 
         return view('regional.province', [
             'province' => $province,
@@ -57,7 +57,7 @@ class RegionalController extends Controller
                 ->get();
         }
 
-        $waMessage = "Halo, saya dari {$city['name']} dan ingin konsultasi mengenai pelatihan K3 Listrik.";
+        $waMessage = "Halo, saya dari {$city['name']} dan ingin konsultasi mengenai skema kompetensi pertanian.";
 
         return view('regional.city', [
             'city' => $city,
@@ -94,7 +94,7 @@ class RegionalController extends Controller
                 ->get();
         }
 
-        $waMessage = "Halo, saya dari Kecamatan {$district['name']}, {$district['city_name']} dan ingin konsultasi mengenai pelatihan K3 Listrik.";
+        $waMessage = "Halo, saya dari Kecamatan {$district['name']}, {$district['city_name']} dan ingin konsultasi mengenai skema kompetensi pertanian.";
 
         return view('regional.district', [
             'district' => $district,

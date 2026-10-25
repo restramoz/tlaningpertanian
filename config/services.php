@@ -36,15 +36,12 @@ return [
     ],
 
     'whatsapp' => [
+        // Official number intentionally blank until the owner supplies it.
+        // When blank/invalid, CTAs render non-link contact text (no wa.me URL).
         'phone' => env('WHATSAPP_PHONE', ''),
-        'default_message' => env('WHATSAPP_DEFAULT_MESSAGE', 'Halo, saya ingin konsultasi mengenai pelatihan K3 Listrik.'),
-        // Public business numbers for article callouts.
-        'callout_contacts' => [
-            '08118500177',
-            '081399810272',
-            '087894580806',
-            '087894580649',
-        ],
+        'default_message' => env('WHATSAPP_DEFAULT_MESSAGE', 'Halo, saya ingin konsultasi mengenai pelatihan dan skema kompetensi pertanian.'),
+        // Neutral fallback shown in place of a broken/non-working WhatsApp link.
+        'fallback_text' => env('WHATSAPP_FALLBACK_TEXT', 'Hubungi admin untuk informasi konsultasi.'),
     ],
 
     // Ollama LLM service configuration for article generation

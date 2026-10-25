@@ -40,6 +40,8 @@ class RegionalPagesTest extends TestCase
      */
     public function test_province_page_renders_successfully(): void
     {
+        config(['services.whatsapp.phone' => '081299887766']);
+
         $response = $this->get(route('regional.province', 'jawa-barat'));
 
         $response->assertStatus(200);
@@ -61,9 +63,9 @@ class RegionalPagesTest extends TestCase
         $response->assertSee('Perunggasan Jenjang 6');
         $response->assertSee('FASILITATOR PERTANIAN ORGANIK TANAMAN', false);
 
-        // WhatsApp CTA
+        // WhatsApp CTA uses the central config and an agricultural message
         $response->assertSee('wa.me', false);
-        $response->assertSee(rawurlencode('Halo, saya dari Provinsi Jawa Barat dan ingin konsultasi mengenai pelatihan K3 Listrik.'), false);
+        $response->assertSee(rawurlencode('Halo, saya dari Provinsi Jawa Barat dan ingin konsultasi mengenai skema kompetensi pertanian.'), false);
 
         // Province must be indexable (no "noindex")
         $response->assertDontSee('content="noindex');
@@ -99,6 +101,8 @@ class RegionalPagesTest extends TestCase
      */
     public function test_city_page_renders_successfully(): void
     {
+        config(['services.whatsapp.phone' => '081299887766']);
+
         $response = $this->get(route('regional.city', 'bandung'));
 
         $response->assertStatus(200);
@@ -121,16 +125,13 @@ class RegionalPagesTest extends TestCase
         $response->assertSee(route('city.program.detail', ['city' => 'bandung', 'program' => 'perunggasan-jenjang-6']), false);
         $response->assertSee(route('city.program.detail', ['city' => 'bandung', 'program' => 'fasilitator-pertanian-organik-tanaman']), false);
 
-        // shortcut: footer catalog links remain K3 placeholders until the S2 copy swap
-        $response->assertSee(route('city.program.detail', ['city' => 'bandung', 'program' => 'perunggasan-jenjang-5']), false);
-
-        // WhatsApp CTA
+        // WhatsApp CTA uses the central config and an agricultural message
         $response->assertSee('wa.me', false);
-        $response->assertSee(rawurlencode('Halo, saya dari Kota Bandung dan ingin konsultasi mengenai pelatihan K3 Listrik.'), false);
+        $response->assertSee(rawurlencode('Halo, saya dari Kota Bandung dan ingin konsultasi mengenai skema kompetensi pertanian.'), false);
 
         // Disclaimer / No-invented-locations policy
         $response->assertSee('Catatan penting:', false);
-        $response->assertSee('Penyelenggaraan pelatihan fisik/in-house di Kota Bandung, jadwal pelaksanaan, dan asesmen kebutuhan K3 dikonfirmasi langsung melalui representasi konsultan kami.', false);
+        $response->assertSee('Penyelenggaraan pelatihan fisik/in-house di Kota Bandung, jadwal pelaksanaan, dan asesmen kebutuhan dikonfirmasi langsung melalui representasi konsultan kami.', false);
 
         // City must be indexable (no "noindex")
         $response->assertDontSee('content="noindex');
@@ -168,6 +169,8 @@ class RegionalPagesTest extends TestCase
      */
     public function test_district_page_renders_successfully(): void
     {
+        config(['services.whatsapp.phone' => '081299887766']);
+
         $response = $this->get(route('regional.district', ['citySlug' => 'bandung', 'districtSlug' => 'coblong']));
 
         $response->assertStatus(200);
@@ -193,12 +196,28 @@ class RegionalPagesTest extends TestCase
         // Sibling districts navigation
         $response->assertSee('Kecamatan Lain di Kota Bandung');
 
-        // WhatsApp CTA
+        // WhatsApp CTA uses the central config and an agricultural message
         $response->assertSee('wa.me', false);
-        $response->assertSee(rawurlencode('Halo, saya dari Kecamatan Coblong, Kota Bandung dan ingin konsultasi mengenai pelatihan K3 Listrik.'), false);
+        $response->assertSee(rawurlencode('Halo, saya dari Kecamatan Coblong, Kota Bandung dan ingin konsultasi mengenai skema kompetensi pertanian.'), false);
 
         // District pages are thin content and MUST be tagged noindex
         $response->assertSee('<meta name="robots" content="noindex, follow">', false);
+    }
+
+    public function test_regional_pages_render_no_wa_me_link_when_phone_is_empty(): void
+    {
+        config(['services.whatsapp.phone' => '']);
+
+        foreach ([
+            route('regional.province', 'jawa-barat'),
+            route('regional.city', 'bandung'),
+            route('regional.district', ['citySlug' => 'bandung', 'districtSlug' => 'coblong']),
+        ] as $url) {
+            $response = $this->get($url);
+            $response->assertStatus(200);
+            $response->assertDontSee('https://wa.me', false);
+            $response->assertSee('Hubungi admin untuk informasi konsultasi');
+        }
     }
 
     /**

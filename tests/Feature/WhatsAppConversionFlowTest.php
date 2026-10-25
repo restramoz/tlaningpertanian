@@ -10,50 +10,47 @@ class WhatsAppConversionFlowTest extends TestCase
     public function test_homepage_ctas_use_configured_phone_and_default_message(): void
     {
         config(['services.whatsapp.phone' => '081299887766']);
-        config(['services.whatsapp.default_message' => 'Halo, saya ingin konsultasi mengenai Pelatihan K3 Listrik.']);
+        config(['services.whatsapp.default_message' => 'Halo, saya ingin konsultasi mengenai pelatihan dan skema kompetensi pertanian.']);
 
         $response = $this->get('/');
         $response->assertStatus(200);
 
-        $expectedUrl = 'https://wa.me/6281299887766?text=' . rawurlencode('Halo, saya ingin konsultasi mengenai Pelatihan K3 Listrik.');
+        $expectedUrl = 'https://wa.me/6281299887766?text=' . rawurlencode('Halo, saya ingin konsultasi mengenai pelatihan dan skema kompetensi pertanian.');
 
         // Hero CTA, Header CTA, Footer CTA, and Floating CTA should all include this URL
         $response->assertSee($expectedUrl, false);
     }
 
-    public function test_homepage_ctas_fallback_gracefully_when_phone_is_missing(): void
+    public function test_homepage_ctas_render_non_link_contact_text_when_phone_is_missing(): void
     {
         config(['services.whatsapp.phone' => '']);
-        config(['services.whatsapp.default_message' => 'Halo, saya ingin konsultasi mengenai Pelatihan K3 Listrik.']);
+        config(['services.whatsapp.default_message' => 'Halo, saya ingin konsultasi mengenai pelatihan dan skema kompetensi pertanian.']);
 
         $response = $this->get('/');
         $response->assertStatus(200);
 
-        $expectedFallbackUrl = 'https://wa.me/?text=' . rawurlencode('Halo, saya ingin konsultasi mengenai Pelatihan K3 Listrik.');
-        $response->assertSee($expectedFallbackUrl, false);
+        // No clickable WhatsApp link may be emitted without a valid recipient.
+        $response->assertDontSee('https://wa.me', false);
 
-        // Ensure no broken numbers like https://wa.me/62? or https://wa.me/? are emitted
-        $response->assertDontSee('https://wa.me/62?', false);
+        // Neutral non-link contact copy is shown instead.
+        $response->assertSee('Hubungi admin untuk informasi konsultasi');
     }
 
-    public function test_homepage_ctas_fallback_gracefully_when_phone_is_invalid(): void
+    public function test_homepage_ctas_render_non_link_contact_text_when_phone_is_invalid(): void
     {
-        // Unparseable / invalid short digits
         config(['services.whatsapp.phone' => 'invalid-abc']);
-        config(['services.whatsapp.default_message' => 'Halo, saya ingin konsultasi mengenai Pelatihan K3 Listrik.']);
 
         $response = $this->get('/');
         $response->assertStatus(200);
 
-        $expectedFallbackUrl = 'https://wa.me/?text=' . rawurlencode('Halo, saya ingin konsultasi mengenai Pelatihan K3 Listrik.');
-        $response->assertSee($expectedFallbackUrl, false);
+        $response->assertDontSee('https://wa.me', false);
+        $response->assertSee('Hubungi admin untuk informasi konsultasi');
 
-        // Test too-short digits (e.g. "123")
+        // Too-short digits are equally rejected (no half-baked wa.me/123 link)
         config(['services.whatsapp.phone' => '123']);
         $responseShort = $this->get('/');
         $responseShort->assertStatus(200);
-        $responseShort->assertSee($expectedFallbackUrl, false);
-        $responseShort->assertDontSee('https://wa.me/123?', false);
+        $responseShort->assertDontSee('https://wa.me/123', false);
     }
 
     public function test_all_program_cards_on_homepage_produce_program_specific_messages(): void
@@ -66,32 +63,6 @@ class WhatsAppConversionFlowTest extends TestCase
         $schemes = array_slice(app(SchemeService::class)->all(), 0, 3, true);
         foreach ($schemes as $scheme) {
             $response->assertSee('https://wa.me/6281299887766?text=' . rawurlencode($scheme['wa_message']), false);
-        }
-    }
-
-    public function test_program_pages_produce_contextual_messages_across_all_page_ctas(): void
-    {
-        config(['services.whatsapp.phone' => '085544332211']);
-
-        $schemes = array_slice(app(SchemeService::class)->all(), 0, 3, true);
-        $programs = array_map(static fn (array $scheme): array => [
-            'route' => 'program.show',
-            'slug' => $scheme['slug'],
-            'message' => $scheme['wa_message'],
-        ], $schemes);
-
-        foreach ($programs as $program) {
-            $response = $this->get(route($program['route'], $program['slug']));
-            $response->assertStatus(200);
-
-            $encoded = rawurlencode($program['message']);
-            $expectedUrl = 'https://wa.me/6285544332211?text=' . $encoded;
-
-            // Page must contain the contextual WhatsApp link
-            $response->assertSee($expectedUrl, false);
-
-            // Floating CTA on program page also adopts the contextual message
-            $response->assertSee('aria-label="Konsultasi cepat via WhatsApp (buka chat di tab baru)"', false);
         }
     }
 
@@ -117,6 +88,8 @@ class WhatsAppConversionFlowTest extends TestCase
 
     public function test_floating_cta_has_accessible_markup_and_rel_attributes(): void
     {
+        config(['services.whatsapp.phone' => '081299887766']);
+
         $response = $this->get('/');
 
         $response->assertStatus(200);
@@ -124,6 +97,38 @@ class WhatsAppConversionFlowTest extends TestCase
         $response->assertSee('target="_blank"', false);
         $response->assertSee('rel="noopener noreferrer"', false);
         $response->assertSee('aria-label="Konsultasi cepat via WhatsApp (buka chat di tab baru)"', false);
+    }
+
+    public function test_floating_cta_is_hidden_when_no_valid_phone_is_configured(): void
+    {
+        config(['services.whatsapp.phone' => '']);
+
+        $response = $this->get('/');
+        $response->assertStatus(200);
+
+        // The floating element must not render a link when no chat can open.
+        $response->assertDontSee('https://wa.me', false);
+        $response->assertDontSee('aria-label="Konsultasi cepat via WhatsApp (buka chat di tab baru)"', false);
+    }
+
+    public function test_consistent_phone_configuration_across_public_surfaces(): void
+    {
+        config(['services.whatsapp.phone' => '081290112233']);
+        config(['services.whatsapp.default_message' => 'Konsultasi pertanian.']);
+
+        $expectedUrl = 'https://wa.me/6281290112233?text=' . rawurlencode('Konsultasi pertanian.');
+        $pages = [
+            '/',
+            route('program.show', 'perunggasan-jenjang-5'),
+            route('regional.province', 'jawa-barat'),
+            route('regional.city', 'bandung'),
+        ];
+
+        foreach ($pages as $url) {
+            $response = $this->get($url);
+            $response->assertStatus(200);
+            $response->assertSee($expectedUrl, false);
+        }
     }
 
     public function test_no_real_contact_numbers_or_secrets_are_exposed(): void
@@ -134,8 +139,10 @@ class WhatsAppConversionFlowTest extends TestCase
             $response = $this->get($url);
             $response->assertStatus(200);
 
-            // Never expose reference project number
-            $response->assertDontSee('8118500177');
+            // Never expose any of the legacy project numbers
+            foreach (['8118500177', '81399810272', '87894580806', '87894580649'] as $number) {
+                $response->assertDontSee($number);
+            }
 
             // Never leak env markers
             $response->assertDontSee('WHATSAPP_PHONE=');

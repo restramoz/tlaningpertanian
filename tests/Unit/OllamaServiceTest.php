@@ -14,7 +14,7 @@ class OllamaServiceTest extends TestCase
         config([
             'services.ollama.base_url' => 'http://dummy-ollama.local',
             'services.ollama.model' => 'dummy-model',
-            'services.whatsapp.callout_contacts' => ['081234567890'],
+            'services.whatsapp.phone' => '081234567890',
         ]);
     }
 

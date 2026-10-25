@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Training K3 Listrik — Pelatihan Keselamatan Kerja Kelistrikan Nasional')
-@section('meta_description', 'Program pelatihan K3 Listrik untuk berbagai peran kelistrikan: pembinaan kompetensi keselamatan kerja listrik di industri, gedung, dan fasilitas di seluruh Indonesia.')
+@section('title', 'Tlaning Pertanian — Pelatihan & Skema Kompetensi Pertanian')
+@section('meta_description', 'Katalog skema kompetensi dan program pelatihan pertanian: rincian unit kompetensi, penyelenggara, serta layanan konsultasi untuk kebutuhan pertanian dan agribisnis.')
 
 @section('content')
 @php
@@ -17,7 +17,7 @@
             <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
-                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#481E14" stroke-width="1" />
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0F5132" stroke-width="1" />
                     </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#grid-pattern)" />
@@ -29,17 +29,17 @@
                 <!-- Focus Badge -->
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dark-mahogany text-white text-xs sm:text-sm font-semibold mb-6 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-safety-orange animate-pulse"></span>
-                    Spesialisasi Keselamatan Kerja Kelistrikan
+                    Pelatihan &amp; Skema Kompetensi Pertanian
                 </div>
 
                 <!-- Main Heading -->
                 <h1 id="hero-heading" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-industry-black leading-tight uppercase">
-                    Pelatihan <span class="text-burnt-brick">K3 Listrik</span> untuk Berbagai Peran
+                    Pelatihan <span class="text-burnt-brick">Pertanian</span> &amp; Skema Kompetensi
                 </h1>
 
                 <!-- Subheading / Paragraph -->
                 <p class="mt-6 text-base sm:text-lg lg:text-xl text-dark-mahogany leading-relaxed">
-                    Perkuat pemahaman bahaya kerja listrik dan disiplin kerja aman personel Anda melalui program pelatihan terstruktur, mulai dari operator panel, teknisi, pengawas, hingga manajer fungsi kelistrikan.
+                    Jelajahi skema kompetensi pertanian dengan rincian unit lengkap, atau konsultasikan kebutuhan pelatihan dan agribisnis Anda — dari hulu produksi hingga pengolahan dan pemasaran hasil pertanian.
                 </p>
 
                 <!-- Actions -->
@@ -53,27 +53,27 @@
                 <!-- Value Highlights Grid -->
                 <div class="mt-12 pt-8 border-t border-neutral-300 grid grid-cols-2 sm:grid-cols-4 gap-6">
                     <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-burnt-brick">{{ count($allPrograms) }} Program</div>
-                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Pelatihan K3 Listrik</div>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-burnt-brick">{{ count($allPrograms) }}</div>
+                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Skema Kompetensi</div>
                     </div>
                     <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-industry-black">Peran</div>
-                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Operator hingga Manajer Listrik</div>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-industry-black">Lingkup</div>
+                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Pertanian &amp; Agribisnis</div>
                     </div>
                     <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-burnt-brick">Spesialis</div>
-                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">PV Surya, PLC, SCADA, Grounding</div>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-burnt-brick">Konsultasi</div>
+                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Konfirmasi penyelenggaraan</div>
                     </div>
                     <div>
                         <div class="text-2xl sm:text-3xl font-extrabold text-industry-black">Nasional</div>
-                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Jangkauan 38 Provinsi</div>
+                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Jangkauan {{ count($provinces) }} Provinsi</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 1: PROGRAM PELATIHAN K3 LISTRIK -->
+    <!-- SECTION 1: SKEMA KOMPETENSI & PROGRAM PELATIHAN -->
     <section id="pelatihan" class="py-16 sm:py-24 bg-white" aria-labelledby="pelatihan-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-14">
@@ -81,10 +81,10 @@
                     Katalog Program
                 </span>
                 <h2 id="pelatihan-heading" class="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-industry-black tracking-tight">
-                    Program Pelatihan K3 Listrik
+                    Skema Kompetensi &amp; Program Pelatihan
                 </h2>
                 <p class="mt-4 text-base text-dark-mahogany">
-                    Program pembinaan kompetensi keselamatan kerja kelistrikan yang disusun per peran dan lingkup: operasional, pemeliharaan, inspeksi, pengawasan, perencanaan, hingga spesialisasi seperti tenaga surya, PLC, dan SCADA.
+                    Katalog diambil langsung dari daftar skema kompetensi yang tersedia: setiap skema menampilkan unit kompetensi beserta kode unit, dan rincian penyelenggaraan dikonfirmasi melalui konsultasi.
                 </p>
             </div>
 
@@ -96,7 +96,7 @@
                         <div class="p-6 sm:p-7 flex-1 flex flex-col">
                             <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-burnt-brick mb-2">
                                 <span>{{ $item['level'] }}</span>
-                                <span class="text-[10px] bg-neutral-100 text-dark-mahogany px-2 py-0.5 rounded font-semibold border border-neutral-200">{{ $item['badge'] ?? 'K3 Listrik' }}</span>
+                                <span class="text-[10px] bg-neutral-100 text-dark-mahogany px-2 py-0.5 rounded font-semibold border border-neutral-200">{{ $item['badge'] ?? 'Skema Kompetensi' }}</span>
                             </div>
                             <h3 class="text-xl font-bold text-industry-black mb-3 group-hover:text-burnt-brick transition-colors">
                                 {{ $item['title'] }}
@@ -140,10 +140,10 @@
                     Mengapa Memilih Kami
                 </span>
                 <h2 id="keunggulan-heading" class="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-industry-black tracking-tight">
-                    Keunggulan Pelatihan K3 Listrik
+                    Keunggulan Tlaning Pertanian
                 </h2>
                 <p class="mt-4 text-base text-dark-mahogany">
-                    Program yang selaras dengan kebutuhan nyata di fasilitas: dari pengoperasian panel harian hingga pengelolaan risiko kelistrikan lintas fungsi.
+                    Informasi skema yang disajikan apa adanya, dengan halaman wilayah untuk konteks layanan dan konsultasi yang transparan.
                 </p>
             </div>
 
@@ -155,9 +155,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
                     </div>
-                    <h3 class="text-base font-bold text-industry-black mb-2">Fokus Bahaya Kelistrikan</h3>
+                    <h3 class="text-base font-bold text-industry-black mb-2">Fokus Sektor Pertanian</h3>
                     <p class="text-sm text-dark-mahogany leading-relaxed">
-                        Seluruh program memusatkan materi pada salah satu bahaya paling umum di tempat kerja: sengatan, busur api, kebakaran, dan gangguan sistem kelistrikan.
+                        Seluruh skema berada dalam lingkup pertanian dan agribisnis; unit kompetensi setiap skema tersedia lengkap pada halaman program masing-masing.
                     </p>
                 </div>
 
@@ -168,9 +168,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                     </div>
-                    <h3 class="text-base font-bold text-industry-black mb-2">Disusun Per Peran</h3>
+                    <h3 class="text-base font-bold text-industry-black mb-2">Mengikuti Struktur Skema</h3>
                     <p class="text-sm text-dark-mahogany leading-relaxed">
-                        Materi dipisahkan sesuai tanggung jawab kerja: operator, teknisi, inspektur, pengawas, supervisor, staff, hingga manajer fungsi kelistrikan.
+                        Katalog tersusun sesuai skema kompetensi beserta jenjang dan unit yang tercantum, tanpa pengurangan atau perubahan nama dari daftar penyelenggara.
                     </p>
                 </div>
 
@@ -181,9 +181,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                         </svg>
                     </div>
-                    <h3 class="text-base font-bold text-industry-black mb-2">Lingkup Lengkap</h3>
+                    <h3 class="text-base font-bold text-industry-black mb-2">Jangkauan Wilayah</h3>
                     <p class="text-sm text-dark-mahogany leading-relaxed">
-                        Dari kelistrikan gedung, kendaraan, dan fasilitas produksi hingga spesialisasi seperti tenaga surya, kendali konvensional, PLC, dan pemantauan terpusat.
+                        Halaman provinsi, kota/kabupaten, dan kecamatan tersedia sebagai konteks administratif jangkauan layanan di seluruh Indonesia.
                     </p>
                 </div>
 
@@ -214,7 +214,7 @@
                     Pertanyaan yang Sering Diajukan
                 </h2>
                 <p class="mt-3 text-sm sm:text-base text-dark-mahogany">
-                    Seputar program pelatihan K3 Listrik dan pembinaan kompetensi keselamatan kerja kelistrikan.
+                    Seputar skema kompetensi dan program pelatihan pertanian.
                 </p>
             </div>
 
@@ -235,7 +235,7 @@
                         <svg class="w-5 h-5 text-burnt-brick group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </summary>
                     <p class="mt-3 text-sm text-dark-mahogany leading-relaxed">
-                        Pilih berdasarkan peran kerja: operator untuk pengoperasian panel, teknisi untuk pemeliharaan, inspektur untuk pemeriksaan instalasi, pengawas untuk pekerjaan berlangsung, dan manajer untuk pengelolaan fungsi kelistrikan. Untuk lingkup spesifik, tersedia program tenaga surya, kendali, dan sistem ilmiah lainnya. Konsultasi pengarahan tersedia via WhatsApp.
+                        Pilih berdasarkan lingkup kerja yang dibutuhkan; setiap skema memiliki halaman sendiri dengan daftar unit kompetensi, dan konsultasi pengarahan tersedia via WhatsApp.
                     </p>
                 </details>
 
@@ -269,10 +269,10 @@
                 Konsultasi &amp; Pendaftaran Program
             </span>
             <h2 id="cta-heading" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight uppercase">
-                Perkuat Keselamatan Kerja Kelistrikan Tim Anda
+                Bangun Kompetensi Pertanian Tim Anda
             </h2>
             <p class="mt-4 text-base sm:text-lg text-neutral-200 max-w-2xl mx-auto leading-relaxed">
-                Hubungi kami via WhatsApp untuk konsultasi program pelatihan K3 Listrik, penawaran in-house training perusahaan, atau rekomendasi program sesuai peran tim Anda.
+                Hubungi kami via WhatsApp untuk konsultasi skema kompetensi, program pelatihan pertanian, atau rekomendasi skema sesuai kebutuhan organisasi Anda.
             </p>
             <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <x-wa-cta variant="primary" size="lg" label="Konsultasi via WhatsApp Sekarang" class="shadow-lg bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold" />
@@ -287,8 +287,8 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-burnt-brick bg-white px-3 py-1 rounded-full border border-burnt-brick/20">
                     Jangkauan Wilayah
                 </span>
-                <h2 class="text-2xl font-extrabold text-industry-black mt-2">Pelatihan K3 Listrik di 38 Provinsi</h2>
-                <p class="text-sm text-dark-mahogany mt-1">Jelajahi halaman provinsi dan kota untuk konteks kebutuhan pelatihan di wilayah Anda.</p>
+                <h2 class="text-2xl font-extrabold text-industry-black mt-2">Skema Kompetensi Pertanian di {{ count($provinces) }} Provinsi</h2>
+                <p class="text-sm text-dark-mahogany mt-1">Jelajahi halaman provinsi dan kota untuk konteks layanan di wilayah Anda.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

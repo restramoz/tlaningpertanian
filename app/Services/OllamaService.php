@@ -529,7 +529,11 @@ PROMPT;
     }
 
     /**
-     * Add context-aware WhatsApp CTA callouts without leaking hardcoded numbers.
+     * Add context-aware consultation callouts without leaking hardcoded numbers.
+     *
+     * Uses the single central services.whatsapp configuration. When no valid
+     * phone is configured, the callout degrades to neutral non-link contact
+     * text — never a wa.me link without a recipient and never a legacy number.
      *
      * @param  array<string, mixed>  $result
      * @return array<string, mixed>
@@ -539,19 +543,30 @@ PROMPT;
         $content = $this->sanitizeContent($result['content'] ?? '');
         $brandLine = $this->brandLine($serviceName);
 
-        // Retrieve configured contacts; fallback to empty array.
-        $contacts = config('services.whatsapp.callout_contacts', []);
-        // Ensure we have at least one contact to avoid empty URLs.
-        if (empty($contacts)) {
-            return $result; // silently skip if no contacts configured.
+        // Single authoritative source: services.whatsapp.phone.
+        $phone = config('services.whatsapp.phone', '');
+        $waUrl = WhatsApp::url(null, $phone);
+
+        if ($waUrl !== null) {
+            $message = "Halo, saya ingin konsultasi mengenai {$brandLine} untuk wilayah {$cityName}.";
+            $waUrl = WhatsApp::url($message, $phone);
+            $calloutAction = '<a href="'.$waUrl.'" target="_blank" rel="noopener noreferrer"'
+                .' class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs transition shrink-0">'
+                .'<span>Konsultasi WhatsApp</span> &rarr;'
+                .'</a>';
+        } else {
+            $calloutAction = '<span class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-concrete-100 border border-concrete-300 text-dark-mahogany font-bold text-xs shrink-0">'
+                .\App\Support\WhatsApp::fallbackText()
+                .'</span>';
         }
 
-        // Prepare five contacts safely regardless of how many contacts are configured.
-        $totalContacts = count($contacts);
-        $selected = [];
-        for ($i = 0; $i < 5; $i++) {
-            $selected[] = $contacts[$i % $totalContacts];
-        }
+        $calloutHtml = '<div class="my-6 p-4 rounded-xl bg-concrete-100 border border-concrete-300 flex flex-col sm:flex-row items-center justify-between gap-4 not-prose">'
+            .'<div>'
+            .'<div class="text-xs font-bold uppercase tracking-wider text-teal-700">Konsultasi '.$brandLine.' '.$cityName.'</div>'
+            .'<div class="text-sm font-semibold text-navy-950">Butuh informasi pelatihan atau skema kompetensi pertanian?</div>'
+            .'</div>'
+            .$calloutAction
+            .'</div>';
 
         // Split content by closing paragraph tags to insert between sections.
         $paragraphEnds = [];
@@ -576,24 +591,11 @@ PROMPT;
         }
 
         // Insert callouts in reverse order so offsets remain valid.
-        foreach (array_reverse($insertPoints, true) as $idx => $position) {
-            $phone = $selected[$idx];
-            $message = "Halo, saya ingin konsultasi mengenai {$brandLine} untuk wilayah {$cityName}.";
-            $waUrl = WhatsApp::url($message, $phone);
-            $ctaHtml = '<div class="my-6 p-4 rounded-xl bg-concrete-100 border border-teal-300 flex flex-col sm:flex-row items-center justify-between gap-4 not-prose">'
-                .'<div>'
-                .'<div class="text-xs font-bold uppercase tracking-wider text-teal-700">Konsultasi '.$brandLine.' '.$cityName.'</div>'
-                .'<div class="text-sm font-semibold text-navy-950">Butuh informasi program pelatihan K3?</div>'
-                .'</div>'
-                .'<a href="'.$waUrl.'" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs transition shrink-0">'
-                .'<span>Konsultasi WhatsApp</span> &rarr;'
-                .'</a>'
-                .'</div>';
-
+        foreach (array_reverse($insertPoints, true) as $position) {
             if ($position !== null) {
-                $content = substr_replace($content, $ctaHtml, $position, 0);
+                $content = substr_replace($content, $calloutHtml, $position, 0);
             } else {
-                $content .= $ctaHtml;
+                $content .= $calloutHtml;
             }
         }
 

@@ -8,7 +8,11 @@ use Tests\TestCase;
 
 /**
  * Verify that the addWhatsAppCallout() method injects exactly five callouts
- * and that the configured contact numbers are used.
+ * and builds links from the single central WhatsApp configuration.
+ *
+ * While no official number is provided, callouts degrade to non-link
+ * contact text — never a wa.me link without a recipient and never a
+ * legacy hardcoded number.
  */
 class WhatsAppCalloutTest extends TestCase
 {
@@ -17,40 +21,64 @@ class WhatsAppCalloutTest extends TestCase
         return new OllamaService();
     }
 
-    public function test_inserts_five_callouts_with_configured_contacts(): void
+    protected function invokeCallout(array $result, string $city = 'TestCity'): array
     {
-        // Ensure the config contains the expected contacts.
-        Config::set('services.whatsapp.callout_contacts', [
-            '08118500177',
-            '081399810272',
-            '087894580806',
-            '087894580649',
-        ]);
-
         $service = $this->getService();
-        // Prepare a simple HTML content with three paragraphs.
+        $ref = new \ReflectionMethod($service, 'addWhatsAppCallout');
+        $ref->setAccessible(true);
+
+        return $ref->invoke($service, $result, $city);
+    }
+
+    public function test_inserts_five_callouts_using_central_phone(): void
+    {
+        Config::set('services.whatsapp.phone', '081299887766');
+
         $result = [
             'content' => "<p>Paragraf pertama.</p><p>Paragraf kedua.</p><p>Paragraf ketiga.</p>",
         ];
 
-        // Use reflection to access the protected method.
-        $ref = new \ReflectionMethod($service, 'addWhatsAppCallout');
-        $ref->setAccessible(true);
-        $updated = $ref->invoke($service, $result, 'TestCity');
+        $updated = $this->invokeCallout($result);
 
         $content = $updated['content'];
-        // Count occurrences of the callout wrapper class.
-        $calloutCount = substr_count($content, 'bg-concrete-100');
-        $this->assertEquals(5, $calloutCount, 'Expected exactly five WhatsApp callouts');
+        $this->assertEquals(5, substr_count($content, 'not-prose'), 'Expected exactly five WhatsApp callouts');
 
-        // Verify that each configured contact appears at least once in a wa.me URL.
-        foreach (Config::get('services.whatsapp.callout_contacts') as $phone) {
-            $normalized = preg_replace('/[^0-9]/', '', $phone);
-            // The service normalizes leading 0 to 62.
-            if (str_starts_with($normalized, '0')) {
-                $normalized = '62' . substr($normalized, 1);
-            }
-            $this->assertStringContainsString($normalized, $content);
+        // The central configured phone (normalized) appears in every callout link.
+        $this->assertStringContainsString('wa.me/6281299887766', $content);
+    }
+
+    public function test_without_configured_phone_callouts_are_non_link_text(): void
+    {
+        Config::set('services.whatsapp.phone', '');
+
+        $result = [
+            'content' => "<p>Paragraf pertama.</p><p>Paragraf kedua.</p><p>Paragraf ketiga.</p>",
+        ];
+
+        $updated = $this->invokeCallout($result);
+        $content = $updated['content'];
+
+        $this->assertEquals(5, substr_count($content, 'not-prose'), 'Callouts must still be present');
+
+        // No broken recipient-less wa.me link and no tel: fallback.
+        $this->assertStringNotContainsString('wa.me', $content);
+        $this->assertStringNotContainsString('href=', $content);
+
+        // Neutral non-link fallback copy is used instead.
+        $this->assertStringContainsString('Hubungi admin untuk informasi konsultasi.', $content);
+    }
+
+    public function test_legacy_numbers_are_never_used_in_generated_callouts(): void
+    {
+        Config::set('services.whatsapp.phone', '');
+
+        $result = ['content' => str_repeat('<p>Isi paragraf artikel.</p>', 8)];
+
+        $updated = $this->invokeCallout($result);
+        $content = $updated['content'];
+
+        foreach (['08118500177', '081399810272', '087894580806', '087894580649', '628118500177', '6281399810272', '6287894580806', '6287894580649'] as $number) {
+            $this->assertStringNotContainsString($number, $content, "Legacy number {$number} must never leak into generated content.");
         }
     }
 }

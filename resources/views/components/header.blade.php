@@ -2,21 +2,23 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
             <!-- Brand Logo -->
-            <a href="{{ route('home') }}" class="group flex items-center gap-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety-orange focus-visible:ring-offset-2 focus-visible:ring-offset-industry-black rounded-lg p-1 transition-transform" aria-label="Training K3 Listrik - Beranda">
+            <a href="{{ route('home') }}" class="group flex items-center gap-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety-orange focus-visible:ring-offset-2 focus-visible:ring-offset-industry-black rounded-lg p-1 transition-transform" aria-label="Tlaning Pertanian - Beranda">
                 <div class="w-11 h-11 rounded-lg bg-burnt-brick border border-burnt-brick/80 flex items-center justify-center text-white shadow-inner group-hover:border-safety-orange transition-colors">
-                    <!-- Safety Shield & Cross SVG -->
+                    <!-- Sprout / Agricultural Growth SVG -->
                     <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        <path d="M12 8v8"/>
-                        <path d="M8 12h8"/>
+                        <path d="M7 20h10"/>
+                        <path d="M12 20c0-7 1-10 5-13"/>
+                        <path d="M12 20c0-5-1-8-5-10"/>
+                        <path d="M17 7c2.5 0 4-1.5 4-4-2.5 0-4 1.5-4 4z"/>
+                        <path d="M7 10c2 0 3.5-1 3.5-3.5C8.5 6.5 7 8 7 10z"/>
                     </svg>
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-safety-orange transition-colors uppercase">
-                        <span class="text-safety-orange">K3 Listrik</span>
+                    <span class="text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-safety-orange transition-colors">
+                        <span class="text-safety-orange">Tlaning Pertanian</span>
                     </span>
                     <span class="text-xs text-neutral-300 font-medium tracking-wide">
-                        Pelatihan Keselamatan Kerja Kelistrikan
+                        Pelatihan &amp; Skema Kompetensi Agribisnis
                     </span>
                 </div>
             </a>

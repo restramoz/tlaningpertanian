@@ -7,7 +7,7 @@ use Tests\TestCase;
 class CityProgramDetailTest extends TestCase
 {
     /**
-     * Ensure the main K3 Listrik programs render with city context.
+     * Ensure the main agricultural programs render with city context.
      */
     public function test_main_programs_render_canonical_content_with_city_context(): void
     {

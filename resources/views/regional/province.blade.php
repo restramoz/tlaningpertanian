@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Pelatihan K3 Listrik Provinsi ' . $province['name'] . ' — Konsultasi Resmi')
-@section('meta_description', 'Informasi program Pelatihan K3 Listrik untuk wilayah Provinsi ' . $province['name'] . '.')
+@section('title', 'Skema Kompetensi Pertanian Provinsi ' . $province['name'] . ' — Konsultasi Resmi')
+@section('meta_description', 'Informasi skema kompetensi dan program pelatihan pertanian untuk wilayah Provinsi ' . $province['name'] . '.')
 @section('wa_message', $waMessage)
 
 @section('content')
@@ -25,13 +25,13 @@
             <div class="max-w-3xl">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-burnt-brick border border-burnt-brick/80 text-white text-xs sm:text-sm font-semibold mb-6 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-safety-orange animate-pulse"></span>
-                    Layanan Informasi &amp; Pembinaan K3
+                    Informasi Skema &amp; Layanan Konsultasi
                 </div>
                 <h1 id="prov-hero-heading" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight uppercase">
-                    Pelatihan K3 Listrik<br><span class="text-safety-orange">Provinsi {{ $province['name'] }}</span>
+                    Skema Kompetensi<br><span class="text-safety-orange">Pertanian Provinsi {{ $province['name'] }}</span>
                 </h1>
                 <p class="mt-6 text-base sm:text-lg text-neutral-200 leading-relaxed">
-                    Pusat informasi program pelatihan keselamatan kerja kelistrikan untuk industri, fasilitas layanan, dan badan usaha di <strong class="text-white">Provinsi {{ $province['name'] }}</strong>.
+                    Pusat informasi skema kompetensi dan program pelatihan pertanian untuk badan usaha, fasilitas produksi, dan mitra agribisnis di <strong class="text-white">Provinsi {{ $province['name'] }}</strong>.
                 </p>
                 <div class="mt-8 flex flex-col sm:flex-row gap-4">
                     <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Wilayah {{ $province['name'] }}" class="bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold shadow-lg" />
@@ -39,8 +39,8 @@
                 <div class="mt-10 pt-8 border-t border-neutral-800 grid grid-cols-2 sm:grid-cols-4 gap-6">
                     <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Pulau</div><div class="text-lg font-extrabold text-white mt-0.5">{{ $province['island'] }}</div></div>
                     <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Kab/Kota</div><div class="text-lg font-extrabold text-safety-orange mt-0.5">{{ $province['total_cities'] }}</div></div>
-                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Layanan</div><div class="text-lg font-extrabold text-white mt-0.5">{{ count($programs) }} Program</div></div>
-                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Regulasi</div><div class="text-lg font-extrabold text-safety-orange mt-0.5">UU 1/1970</div></div>
+                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Layanan</div><div class="text-lg font-extrabold text-white mt-0.5">{{ count($programs) }} Skema</div></div>
+                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Lingkup</div><div class="text-lg font-extrabold text-safety-orange mt-0.5">Pertanian &amp; Agribisnis</div></div>
                 </div>
             </div>
         </div>
@@ -66,9 +66,9 @@
             <div class="max-w-3xl mb-12">
                 <span class="text-xs font-bold uppercase tracking-wider text-burnt-brick bg-neutral-100 px-3 py-1 rounded-full border border-burnt-brick/20">Layanan Unggulan</span>
                 <h2 id="prov-program-heading" class="mt-3 text-2xl sm:text-3xl font-extrabold text-industry-black tracking-tight">
-                    Program Pelatihan &amp; Konsultansi K3 di {{ $province['name'] }}
+                    Skema Kompetensi &amp; Layanan di {{ $province['name'] }}
                 </h2>
-                <p class="mt-4 text-base text-dark-mahogany">Pilih program pembinaan kompetensi atau jasa konsultansi K3 sesuai kebutuhan organisasi dan industri Anda.</p>
+                <p class="mt-4 text-base text-dark-mahogany">Pilih skema kompetensi atau layanan konsultasi sesuai kebutuhan organisasi Anda.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -113,21 +113,21 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <span class="text-xs font-bold uppercase tracking-wider text-burnt-brick bg-neutral-100 px-3 py-1 rounded-full border border-burnt-brick/20">Tanya Jawab</span>
-                <h2 id="prov-faq-heading" class="mt-3 text-2xl font-extrabold text-industry-black tracking-tight">FAQ: Layanan K3 di {{ $province['name'] }}</h2>
+                <h2 id="prov-faq-heading" class="mt-3 text-2xl font-extrabold text-industry-black tracking-tight">FAQ: Skema Kompetensi di {{ $province['name'] }}</h2>
             </div>
             <div class="space-y-4">
                 @foreach([
                     [
-                        'q' => 'Apakah pelatihan kompetensi K3 dan jasa konsultansi melayani wilayah Provinsi ' . $province['name'] . '?',
-                        'a' => 'Ya, kami melayani konsultasi dan pelaksanaan program pelatihan K3 Listrik, termasuk skema penyelenggaraan dan in-house training, untuk seluruh kota dan kabupaten di Provinsi ' . $province['name'] . '.',
+                        'q' => 'Apakah skema kompetensi dan layanan konsultasi tersedia untuk wilayah Provinsi ' . $province['name'] . '?',
+                        'a' => 'Ya, halaman ini menyajikan seluruh skema kompetensi pertanian yang tersedia, dan layanan konsultasi dapat dikonfirmasi untuk kota dan kabupaten di Provinsi ' . $province['name'] . '.',
                     ],
                     [
-                        'q' => 'Program apa saja yang tersedia untuk pemenuhan kepatuhan K3?',
-                        'a' => 'Tersedia program pelatihan K3 Listrik dengan lingkup mulai peran operator, teknisi, inspektur, pengawas, hingga manajer, termasuk spesialisasi seperti tenaga surya, PLC, SCADA, dan pembumian. Detail program dikonfirmasi melalui WhatsApp.',
+                        'q' => 'Skema kompetensi apa saja yang tersedia?',
+                        'a' => 'Daftar skema kompetensi pertanian yang lengkap tersedia pada bagian katalog di halaman ini, beserta unit kompetensi masing-masing. Rincian dijelaskan pada halaman program setiap skema.',
                     ],
                     [
-                        'q' => 'Bagaimana cara mengajukan proposal in-house training K3 di ' . $province['name'] . '?',
-                        'a' => 'Hubungi konsultan kami melalui WhatsApp. Tim kami akan mendiskusikan kebutuhan pelatihan, profil risiko fasilitas kerja, dan menyiapkan proposal penawaran resmi yang disesuaikan.',
+                        'q' => 'Bagaimana cara pengajuan konsultasi untuk kebutuhan di ' . $province['name'] . '?',
+                        'a' => 'Hubungi tim kami melalui WhatsApp. Kebutuhan skema, profil kegiatan usaha, dan persyaratan administrasi akan didiskusikan terlebih dahulu sebelum proposal resmi disiapkan.',
                     ],
                 ] as $faq)
                 <details class="group bg-white rounded-xl border border-neutral-200 p-5 sm:p-6 open:border-burnt-brick shadow-xs">
@@ -149,10 +149,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="max-w-3xl mx-auto">
                 <h2 id="prov-cta-heading" class="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight">
-                    Konsultasi Pelatihan K3 Listrik<br><span class="text-safety-orange">Provinsi {{ $province['name'] }}</span>
+                    Konsultasi Program Pertanian<br><span class="text-safety-orange">Provinsi {{ $province['name'] }}</span>
                 </h2>
                 <p class="mt-4 text-base text-neutral-200 leading-relaxed">
-                    Hubungi kami untuk informasi materi, pendaftaran peserta, atau penjadwalan in-house training pelatihan K3 Listrik.
+                    Hubungi kami untuk informasi skema kompetensi, halaman program, atau kebutuhan konsultasi di Provinsi {{ $province['name'] }}.
                 </p>
                 <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Sekarang" class="bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold shadow-lg" />

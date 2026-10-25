@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@hasSection('title')@yield('title') — @endif{{ config('app.name', 'Training K3 Listrik') }}</title>
-    <meta name="description" content="@yield('meta_description', 'Portal pelatihan K3 Listrik. Informasi pembinaan kompetensi keselamatan kerja kelistrikan dan layanan pendukung K3.')">
+    <title>@hasSection('title')@yield('title') — @endif{{ config('app.name', 'Tlaning Pertanian') }}</title>
+    <meta name="description" content="@yield('meta_description', 'Portal pelatihan dan skema kompetensi pertanian. Informasi program pelatihan pertanian dan layanan konsultasi.')">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url()->current() }}">
 
     <!-- Open Graph / Meta -->
-    <meta property="og:title" content="@hasSection('title')@yield('title') — @endif{{ config('app.name', 'Training K3 Listrik') }}">
-    <meta property="og:description" content="@yield('meta_description', 'Pembinaan kompetensi keselamatan kerja kelistrikan dan layanan pendukung K3 di Indonesia.')">
+    <meta property="og:title" content="@hasSection('title')@yield('title') — @endif{{ config('app.name', 'Tlaning Pertanian') }}">
+    <meta property="og:description" content="@yield('meta_description', 'Informasi pelatihan dan skema kompetensi pertanian serta layanan konsultasi di Indonesia.')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#0C0C0C">
+    <meta name="theme-color" content="#0F5132">
 
     <!-- Styles & Scripts via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])

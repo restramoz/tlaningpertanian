@@ -61,15 +61,15 @@
                     </div>
                     <div>
                         <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Sektor</div>
-                        <div class="text-lg sm:text-xl font-extrabold text-white mt-0.5">Kelistrikan</div>
+                        <div class="text-lg sm:text-xl font-extrabold text-white mt-0.5">Pertanian &amp; Agribisnis</div>
                     </div>
                     <div>
                         <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Sifat Program</div>
-                        <div class="text-lg sm:text-xl font-extrabold text-safety-orange mt-0.5">Pembinaan</div>
+                        <div class="text-lg sm:text-xl font-extrabold text-safety-orange mt-0.5">Skema Kompetensi</div>
                     </div>
                     <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Pelatihan</div>
-                        <div class="text-lg sm:text-xl font-extrabold text-white mt-0.5">K3 Listrik</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Penyelenggara</div>
+                        <div class="text-lg sm:text-xl font-extrabold text-white mt-0.5 truncate">{{ $program['lsp'] ?? 'Perlu konfirmasi' }}</div>
                     </div>
                 </div>
             </div>
@@ -251,7 +251,7 @@
                             Pokok Materi &amp; Tahapan Kerja
                         </h3>
                         <p class="text-xs text-neutral-600 mb-5 leading-relaxed">
-                            Cakupan materi dan tahapan teknis mengacu pada standar regulasi K3 yang berlaku:
+                            Cakupan materi mengacu pada struktur skema kompetensi yang tersedia:
                         </p>
 
                         <ul class="space-y-3 mb-6" role="list">
@@ -283,10 +283,10 @@
                     Layanan Terkait
                 </span>
                 <h2 id="program-lain-heading" class="mt-3 text-2xl sm:text-3xl font-extrabold text-industry-black tracking-tight">
-                    Layanan K3 Terkait Lainnya
+                    Skema Kompetensi Terkait Lainnya
                 </h2>
                 <p class="mt-4 text-base text-dark-mahogany">
-                    Bandingkan program pelatihan dan jasa konsultansi lainnya untuk memenuhi seluruh aspek kepatuhan K3 industri Anda.
+                    Bandingkan skema kompetensi dan layanan konsultasi lainnya untuk menemukan yang paling sesuai dengan kebutuhan Anda.
                 </p>
             </div>
 

@@ -117,7 +117,7 @@ class ProgramPagesTest extends TestCase
     }
 
     /**
-     * Test fallback when phone is empty.
+     * Test fallback when phone is empty: no broken wa.me link, neutral text instead.
      */
     public function test_whatsapp_cta_falls_back_when_phone_is_empty(): void
     {
@@ -126,8 +126,8 @@ class ProgramPagesTest extends TestCase
         $response = $this->get(route('program.show', 'perunggasan-jenjang-5'));
         $response->assertStatus(200);
 
-        $expectedText = rawurlencode(app(SchemeService::class)->find('perunggasan-jenjang-5')['wa_message']);
-        $response->assertSee('https://wa.me/?text=' . $expectedText, false);
+        $response->assertDontSee('https://wa.me', false);
+        $response->assertSee('Hubungi admin untuk informasi konsultasi');
     }
 
     /**

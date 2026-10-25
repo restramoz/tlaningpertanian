@@ -8,6 +8,7 @@
     $waUrl = \App\Support\WhatsApp::url($message, $effectivePhone);
 @endphp
 
+@if ($waUrl !== null)
 <aside aria-label="Layanan Bantuan WhatsApp" class="fixed bottom-5 right-5 z-40 print:hidden">
     <a href="{{ $waUrl }}"
        target="_blank"
@@ -20,3 +21,10 @@
         <span class="sr-only">Chat WhatsApp</span>
     </a>
 </aside>
+@else
+    {{-- No valid configured phone: hide the floating CTA rather than — --}}
+    {{-- rendering a button that cannot open any chat. --}}
+    <aside aria-label="Layanan Bantuan WhatsApp" class="hidden print:hidden">
+        <span class="sr-only">{{ \App\Support\WhatsApp::fallbackText() }}</span>
+    </aside>
+@endif

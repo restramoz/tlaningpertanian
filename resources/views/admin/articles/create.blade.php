@@ -24,7 +24,7 @@
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-2xl font-extrabold text-navy-950 tracking-tight">
-                Tambah Artikel K3 Baru
+                Tambah Artikel Baru
             </h1>
             <p class="text-xs text-concrete-500">
                 Buat draf artikel secara manual atau menggunakan bantuan Ollama AI
@@ -42,7 +42,7 @@
                 AI
             </span>
             <h2 class="font-bold text-base text-navy-950">
-                Ollama AI Article Generator (Pelatihan K3 Listrik)
+                Ollama AI Article Generator (Pertanian)
             </h2>
             <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-navy-100 text-navy-900 font-bold border border-navy-300 ml-auto">
                 Lokal / Cloud
@@ -433,7 +433,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // 1. Inisialisasi Jodit Editor
     const editor = Jodit.make('#content_editor', {
-        placeholder: 'Tulis konten artikel edukasi pelatihan K3 Listrik di sini...',
+        placeholder: 'Tulis konten artikel edukasi pertanian di sini...',
         height: 480,
         toolbarAdaptive: false,
         uploader: {

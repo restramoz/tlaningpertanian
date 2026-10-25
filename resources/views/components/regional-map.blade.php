@@ -58,7 +58,7 @@
                 @elseif ($level === 'city')
                     {{ $resolvedName }}, {{ $queryParts[1] ?? '' }}.
                 @endif
-                Titik pada peta menunjukkan pusat administratif wilayah dan <strong class="text-burnt-brick">bukan lokasi kantor atau tempat pelaksanaan training K3 terkonfirmasi</strong>.
+                Titik pada peta menunjukkan pusat administratif wilayah dan <strong class="text-burnt-brick">bukan lokasi kantor atau tempat pelaksanaan program terkonfirmasi</strong>.
             </p>
         </div>
 

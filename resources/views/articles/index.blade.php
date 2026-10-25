@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Artikel & Panduan Pelatihan K3 Listrik')
-@section('meta_description', 'Kumpulan artikel edukatif, panduan teknis, dan referensi seputar pelatihan K3 Listrik dan keselamatan kerja kelistrikan.')
+@section('title', 'Artikel & Panduan Pertanian')
+@section('meta_description', 'Kumpulan artikel edukatif, panduan teknis, dan referensi seputar skema kompetensi serta program pelatihan pertanian.')
 
 @section('content')
 {{-- Hero Section --}}
@@ -10,21 +10,21 @@
         <div class="max-w-3xl space-y-5">
             <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-burnt-brick border border-burnt-brick/80 text-white text-xs font-bold uppercase tracking-wider shadow-sm">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                Edukasi &amp; Literasi Regulasi K3
+                Edukasi &amp; Literasi Pertanian
             </span>
             <h1 class="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white leading-tight">
                 Artikel &amp; Panduan
-                <span class="text-safety-orange">Keselamatan Kerja Kelistrikan</span>
+                <span class="text-safety-orange">Pertanian &amp; Agribisnis</span>
             </h1>
             <p class="text-base text-neutral-200 leading-relaxed max-w-2xl">
-                Informasi pembinaan keselamatan kerja kelistrikan: bahaya kerja listrik, pengendalian risiko, praktik kerja aman, dan pengelolaan sistem kelistrikan di fasilitas.
+                Referensi skema kompetensi, praktik kerja pertanian, dan panduan program pelatihan untuk kebutuhan usaha dan mitra agribisnis.
             </p>
         </div>
     </div>
 </section>
 
 {{-- Articles Grid Section --}}
-<section class="py-14 bg-neutral-50" aria-label="Daftar artikel K3 Listrik">
+<section class="py-14 bg-neutral-50" aria-label="Daftar artikel">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($articles as $article)
@@ -85,7 +85,7 @@
                         <svg class="w-8 h-8 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                     <p class="font-bold text-industry-black">Belum ada artikel yang diterbitkan.</p>
-                    <p class="text-sm text-dark-mahogany">Panduan dan regulasi terkini seputar keselamatan kerja kelistrikan akan segera hadir.</p>
+                    <p class="text-sm text-dark-mahogany">Artikel dan panduan terkini seputar skema kompetensi dan pertanian akan segera hadir.</p>
                     <a href="{{ route('home') }}" class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety-orange">
                         &larr; Kembali ke Beranda
                     </a>

@@ -18,11 +18,11 @@
   @endif
   "author": {
     "@type": "Organization",
-    "name": "Tim Pelatihan K3 Listrik"
+    "name": "Tim Tlaning Pertanian"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "{{ config('app.name', 'Training K3 Listrik') }}",
+    "name": "{{ config('app.name', 'Tlaning Pertanian') }}",
     "url": "{{ url('/') }}"
   }
 }
@@ -80,7 +80,7 @@
         <header class="space-y-5 mb-8">
             <div class="flex items-center gap-2 flex-wrap">
                 <span class="px-3 py-1 rounded-full text-xs font-bold bg-neutral-100 text-burnt-brick border border-burnt-brick/20 uppercase tracking-wider">
-                    K3 Listrik
+                    Skema Kompetensi
                 </span>
                 @if($targetCity)
                     <a
@@ -101,7 +101,7 @@
                     Diterbitkan: <strong class="text-dark-mahogany">{{ ($article->published_at ?? $article->created_at)->format('d F Y') }}</strong>
                 </time>
                 <span aria-hidden="true">&bull;</span>
-                <span>Oleh: <strong class="text-dark-mahogany">Tim Pelatihan K3 Listrik</strong></span>
+                <span>Oleh: <strong class="text-dark-mahogany">Tim Tlaning Pertanian</strong></span>
             </div>
 
             @if($article->excerpt)
@@ -148,7 +148,7 @@
             }
             .article-content .article-table-scroll th,
             .article-content .article-table-scroll td {
-                border: 1px solid #E5E1DA;
+                border: 1px solid #E2EAE2;
                 padding: 8px 10px;
                 text-align: left;
                 vertical-align: top;
@@ -156,9 +156,9 @@
                 overflow-wrap: anywhere;
             }
             .article-content .article-table-scroll th {
-                background: #F3F1ED;
+                background: #F0F5F0;
                 font-weight: 700;
-                color: #0C0C0C;
+                color: #1F2937;
             }
         </style>
 
@@ -217,13 +217,13 @@
         {{-- Consultation CTA --}}
         <div class="mt-12 p-6 sm:p-8 rounded-2xl bg-industry-black text-white space-y-4 shadow-lg border border-dark-mahogany">
             <span class="inline-block px-3 py-1 rounded-full bg-dark-mahogany text-safety-orange text-[11px] font-bold uppercase tracking-wider border border-burnt-brick/40">
-                Layanan Pelatihan K3 Listrik
+                Skema Kompetensi Pertanian
             </span>
             <h3 class="font-extrabold text-xl sm:text-2xl text-white">
-                Konsultasikan Kebutuhan Pelatihan Keselamatan Kelistrikan Anda
+                Konsultasikan Kebutuhan Program Pertanian Anda
             </h3>
             <p class="text-sm text-neutral-200 leading-relaxed max-w-2xl">
-                Dapatkan informasi mengenai program pelatihan K3 Listrik, silabus, dan skema in-house training perusahaan melalui WhatsApp.
+                Dapatkan informasi mengenai skema kompetensi, unit pelatihan, dan saran program yang sesuai melalui WhatsApp.
             </p>
             <div class="pt-2 flex flex-wrap gap-3">
                 <x-wa-cta variant="primary" size="md" label="Konsultasi Program Sekarang" class="bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold shadow-md" />
@@ -244,7 +244,7 @@
 <section class="py-12 bg-neutral-50 border-t border-neutral-200" aria-label="Artikel terkait">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="font-extrabold text-xl text-industry-black mb-6">
-            Artikel K3 Listrik Lainnya
+            Artikel Lainnya
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($relatedArticles as $rel)

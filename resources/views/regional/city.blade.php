@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Pelatihan K3 Listrik di ' . $city['name'] . ' — Konsultasi Resmi K3')
-@section('meta_description', 'Informasi program pelatihan K3 Listrik dan pembinaan kompetensi keselamatan kerja untuk industri di ' . $city['name'] . ', Provinsi ' . $city['province'] . '.')
+@section('title', 'Skema Kompetensi Pertanian di ' . $city['name'] . ' — Konsultasi Resmi')
+@section('meta_description', 'Informasi skema kompetensi dan program pelatihan pertanian untuk mitra agribisnis di ' . $city['name'] . ', Provinsi ' . $city['province'] . '.')
 @section('wa_message', $waMessage)
 
 @section('content')
@@ -26,13 +26,13 @@
             <div class="max-w-3xl">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-burnt-brick border border-burnt-brick/80 text-white text-xs sm:text-sm font-semibold mb-6 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-safety-orange animate-pulse"></span>
-                    Layanan Pembinaan &amp; Kepatuhan K3
+                    Skema Kompetensi &amp; Layanan Konsultasi
                 </div>
                 <h1 id="city-hero-heading" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight uppercase">
-                    Pelatihan K3 Listrik<br><span class="text-safety-orange">{{ $city['name'] }}</span>
+                    Skema Kompetensi Pertanian<br><span class="text-safety-orange">{{ $city['name'] }}</span>
                 </h1>
                 <p class="mt-6 text-base sm:text-lg text-neutral-200 leading-relaxed">
-                    Program pelatihan keselamatan kerja kelistrikan dan pembinaan kompetensi personil industri bagi fasilitas usaha di <strong class="text-white">{{ $city['name'] }}</strong>, Provinsi {{ $city['province'] }}.
+                    Informasi skema kompetensi dan program pelatihan pertanian bagi badan usaha dan fasilitas produksi di <strong class="text-white">{{ $city['name'] }}</strong>, Provinsi {{ $city['province'] }}.
                 </p>
                 <div class="mt-8 flex flex-col sm:flex-row gap-4">
                     <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Wilayah {{ $city['name'] }}" class="bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold shadow-lg" />
@@ -40,8 +40,8 @@
                 <div class="mt-10 pt-8 border-t border-neutral-800 grid grid-cols-2 sm:grid-cols-4 gap-6">
                     <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Provinsi</div><div class="text-base font-extrabold text-white mt-0.5 truncate">{{ $city['province'] }}</div></div>
                     <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Pulau</div><div class="text-base font-extrabold text-safety-orange mt-0.5">{{ $city['island'] }}</div></div>
-                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Layanan</div><div class="text-base font-extrabold text-white mt-0.5">{{ count($programs) }} Program</div></div>
-                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Regulasi</div><div class="text-base font-extrabold text-safety-orange mt-0.5">UU 1/1970</div></div>
+                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Layanan</div><div class="text-base font-extrabold text-white mt-0.5">{{ count($programs) }} Skema</div></div>
+                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Lingkup</div><div class="text-base font-extrabold text-safety-orange mt-0.5">Pertanian &amp; Agribisnis</div></div>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <p class="text-sm text-dark-mahogany leading-relaxed">
-                    <strong class="text-industry-black">Catatan penting:</strong> Halaman ini adalah portal informasi dan konsultasi resmi. Penyelenggaraan pelatihan fisik/in-house di {{ $city['name'] }}, jadwal pelaksanaan, dan asesmen kebutuhan K3 dikonfirmasi langsung melalui representasi konsultan kami.
+                    <strong class="text-industry-black">Catatan penting:</strong> Halaman ini adalah portal informasi dan konsultasi resmi. Penyelenggaraan pelatihan fisik/in-house di {{ $city['name'] }}, jadwal pelaksanaan, dan asesmen kebutuhan dikonfirmasi langsung melalui representasi konsultan kami.
                 </p>
             </div>
         </div>
@@ -67,9 +67,9 @@
             <div class="max-w-3xl mb-12">
                 <span class="text-xs font-bold uppercase tracking-wider text-burnt-brick bg-neutral-100 px-3 py-1 rounded-full border border-burnt-brick/20">Program Unggulan</span>
                 <h2 id="city-program-heading" class="mt-3 text-2xl sm:text-3xl font-extrabold text-industry-black tracking-tight">
-                    Program Pelatihan &amp; Jasa K3 di {{ $city['name'] }}
+                    Skema Kompetensi di {{ $city['name'] }}
                 </h2>
-                <p class="mt-4 text-base text-dark-mahogany">Pilih program yang sesuai dengan kebutuhan operasional dan kepatuhan K3 fasilitas Anda di {{ $city['name'] }}.</p>
+                <p class="mt-4 text-base text-dark-mahogany">Pilih skema kompetensi yang sesuai dengan kebutuhan usaha dan organisasi Anda di {{ $city['name'] }}.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -98,7 +98,7 @@
             <h2 id="city-kec-heading" class="text-2xl font-extrabold text-industry-black mb-2">
                 Kecamatan di {{ $city['name'] }}
             </h2>
-            <p class="text-sm text-dark-mahogany mb-8">Daftar wilayah administratif di {{ $city['name'] }}. Layanan konsultasi dan pendampingan implementasi K3 menjangkau seluruh kecamatan.</p>
+            <p class="text-sm text-dark-mahogany mb-8">Daftar wilayah administratif di {{ $city['name'] }}. Layanan konsultasi menjangkau seluruh kecamatan.</p>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                 @foreach($city['districts'] as $dist)
                 <a href="{{ route('regional.district', [$city['slug'], $dist['slug']]) }}" class="block px-3 py-2.5 rounded-lg bg-white border border-neutral-200 hover:border-burnt-brick hover:bg-neutral-100 text-sm font-medium text-dark-mahogany hover:text-burnt-brick transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-burnt-brick">
@@ -117,9 +117,9 @@
     <section id="artikel" class="py-14 sm:py-20 bg-white border-b border-neutral-200" aria-labelledby="city-article-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 id="city-article-heading" class="text-2xl font-extrabold text-industry-black mb-2">
-                Artikel &amp; Panduan K3 di {{ $city['name'] }}
+                Artikel &amp; Panduan di {{ $city['name'] }}
             </h2>
-            <p class="text-sm text-dark-mahogany mb-8">Kumpulan artikel edukatif terkait keselamatan kerja kelistrikan untuk wilayah {{ $city['name'] }}.</p>
+            <p class="text-sm text-dark-mahogany mb-8">Kumpulan artikel edukatif terkait skema kompetensi dan pertanian untuk wilayah {{ $city['name'] }}.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($articles as $art)
                 <a href="{{ route('articles.show', $art->slug) }}" class="group flex flex-col bg-white rounded-xl border border-neutral-200 hover:border-burnt-brick hover:shadow-md transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-burnt-brick">
@@ -179,21 +179,21 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <span class="text-xs font-bold uppercase tracking-wider text-burnt-brick bg-neutral-100 px-3 py-1 rounded-full border border-burnt-brick/20">Tanya Jawab</span>
-                <h2 id="city-faq-heading" class="mt-3 text-2xl font-extrabold text-industry-black tracking-tight">FAQ: Layanan K3 di {{ $city['name'] }}</h2>
+                <h2 id="city-faq-heading" class="mt-3 text-2xl font-extrabold text-industry-black tracking-tight">FAQ: Skema Kompetensi di {{ $city['name'] }}</h2>
             </div>
             <div class="space-y-4">
                 @foreach([
                     [
-                        'q' => 'Apakah layanan pembinaan K3 dan in-house training menjangkau ' . $city['name'] . '?',
-                        'a' => 'Ya, kami melayani calon peserta dan korporasi dari ' . $city['name'] . ' untuk berbagai program pelatihan K3 Listrik sesuai peran dan kebutuhan tim Anda.',
+                        'q' => 'Apakah layanan konsultasi dan skema kompetensi menjangkau ' . $city['name'] . '?',
+                        'a' => 'Ya, katalog skema kompetensi pertanian disajikan pada halaman ini, dan layanan konsultasi untuk ' . $city['name'] . ' dapat dikonfirmasi langsung melalui WhatsApp.',
                     ],
                     [
-                        'q' => 'Bagaimana cara menentukan skema pelatihan K3 yang tepat untuk instansi kami?',
-                        'a' => 'Kebutuhan pelatihan disesuaikan dengan peran dan profil risiko operasional perusahaan. Program pelatihan K3 Listrik tersedia untuk berbagai level, dari operator dan teknisi hingga supervisor dan manajer. Tim kami siap membantu mengarahkan program yang sesuai.',
+                        'q' => 'Bagaimana cara menentukan skema yang tepat untuk instansi kami?',
+                        'a' => 'Pemilihan skema disesuaikan dengan kegiatan usaha dan kebutuhan kompetensi tim Anda. Katalog skema lengkap dengan unit kompetensinya tersedia pada halaman masing-masing program, dan tim kami siap membantu mengarahkan pilihan yang sesuai.',
                     ],
                     [
-                        'q' => 'Bagaimana proses pengajuan penawaran in-house training K3 di ' . $city['name'] . '?',
-                        'a' => 'Hubungi representasi konsultan kami melalui WhatsApp. Sampaikan kebutuhan jumlah peserta, jadwal yang diinginkan, dan fokus materi, lalu kami akan menerbitkan proposal teknis dan biaya penawaran resmi.',
+                        'q' => 'Bagaimana proses pengajuan konsultasi di ' . $city['name'] . '?',
+                        'a' => 'Hubungi representasi konsultan kami melalui WhatsApp. Sampaikan kebutuhan jumlah peserta, jadwal yang diinginkan, dan skema yang diminati, lalu kami akan menyiapkan proposal resmi.',
                     ],
                 ] as $faq)
                 <details class="group bg-white rounded-xl border border-neutral-200 p-5 sm:p-6 open:border-burnt-brick shadow-xs">
@@ -215,19 +215,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="max-w-3xl mx-auto">
                 <h2 id="city-cta-heading" class="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight">
-                    Konsultasi Pelatihan K3 Listrik<br><span class="text-safety-orange">{{ $city['name'] }}</span>
+                    Konsultasi Program Pertanian<br><span class="text-safety-orange">{{ $city['name'] }}</span>
                 </h2>
                 <p class="mt-4 text-base text-neutral-200 leading-relaxed">
-                    Hubungi kami untuk informasi materi, penawaran in-house, jadwal peserta, atau rekomendasi program K3 Listrik.
+                    Hubungi kami untuk informasi skema kompetensi, proposal resmi, jadwal peserta, atau rekomendasi program pertanian.
                 </p>
                 <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Sekarang" class="bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold shadow-lg" />
                     <x-button :href="route('regional.province', $city['province_slug'])" variant="outline" size="lg" class="text-white border-2 border-neutral-400 hover:bg-neutral-800">Provinsi {{ $city['province'] }}</x-button>
                 </div>
                 <div class="mt-10 pt-8 border-t border-neutral-800 flex flex-wrap justify-center gap-4 text-xs text-neutral-400">
-                    <a href="{{ route('home') }}#pelatihan" class="hover:text-safety-orange transition-colors">Pelatihan Kompetensi K3</a>
+                    <a href="{{ route('home') }}#pelatihan" class="hover:text-safety-orange transition-colors">Skema Kompetensi</a>
                     <span>•</span>
-                    <a href="{{ route('home') }}#jasa" class="hover:text-safety-orange transition-colors">Jasa Konsultansi K3</a>
+                    <a href="{{ route('home') }}#jasa" class="hover:text-safety-orange transition-colors">Layanan Konsultasi</a>
                     <span>•</span>
                     <a href="{{ route('regional.province', $city['province_slug']) }}" class="hover:text-safety-orange transition-colors">Provinsi {{ $city['province'] }}</a>
                 </div>

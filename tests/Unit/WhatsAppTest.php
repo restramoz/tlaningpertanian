@@ -43,22 +43,41 @@ class WhatsAppTest extends TestCase
         $this->assertEquals('https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20konsultasi.', $url);
     }
 
-    public function test_generates_safe_fallback_url_when_phone_is_missing(): void
+    public function test_url_returns_null_when_phone_is_missing(): void
     {
         config(['services.whatsapp.phone' => '']);
         config(['services.whatsapp.default_message' => 'Halo, saya ingin konsultasi.']);
 
         $url = WhatsApp::url();
-        $this->assertEquals('https://wa.me/?text=Halo%2C%20saya%20ingin%20konsultasi.', $url);
+        $this->assertNull($url);
     }
 
-    public function test_generates_safe_fallback_url_when_phone_is_invalid(): void
+    public function test_url_returns_null_when_phone_is_invalid(): void
     {
         config(['services.whatsapp.phone' => 'invalid-phone-123']);
         config(['services.whatsapp.default_message' => 'Halo, saya ingin konsultasi.']);
 
         $url = WhatsApp::url();
-        $this->assertEquals('https://wa.me/?text=Halo%2C%20saya%20ingin%20konsultasi.', $url);
+        $this->assertNull($url);
+    }
+
+    public function test_url_never_produces_a_link_without_a_recipient_number(): void
+    {
+        foreach (['', null, ' ', 'abc', '!!!'] as $phone) {
+            config(['services.whatsapp.phone' => $phone]);
+            $url = WhatsApp::url('Pesan konsultasi.');
+            $this->assertNull($url);
+        }
+    }
+
+    public function test_fallback_text_reads_config_when_no_url_is_available(): void
+    {
+        config(['services.whatsapp.fallback_text' => 'Hubungi admin untuk informasi konsultasi.']);
+        $this->assertEquals('Hubungi admin untuk informasi konsultasi.', WhatsApp::fallbackText());
+
+        // Missing key falls back to the neutral default text.
+        config(['services.whatsapp' => []]);
+        $this->assertEquals('Hubungi admin untuk informasi konsultasi.', WhatsApp::fallbackText());
     }
 
     public function test_url_encodes_indonesian_text_and_special_punctuation(): void

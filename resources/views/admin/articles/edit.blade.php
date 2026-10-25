@@ -24,7 +24,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-2xl font-extrabold text-navy-950 tracking-tight">
-                Edit Artikel K3
+                Edit Artikel
             </h1>
             <p class="text-xs text-concrete-500">
                 Perbarui konten, kelola optimasi SEO, atau ubah status publikasi artikel
@@ -340,7 +340,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // 1. Inisialisasi Jodit Editor
     const editor = Jodit.make('#content_editor', {
-        placeholder: 'Tulis konten artikel edukasi pelatihan K3 Listrik di sini...',
+        placeholder: 'Tulis konten artikel edukasi pertanian di sini...',
         height: 480,
         toolbarAdaptive: false,
         uploader: {

@@ -70,6 +70,19 @@ class HomepageDesignTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('https://wa.me/?text=', false);
+
+        // No wa.me link may exist without a valid recipient; neutral text instead.
+        $response->assertDontSee('https://wa.me', false);
+        $response->assertSee('Hubungi admin untuk informasi konsultasi');
+    }
+
+    public function test_homepage_carries_brand_and_no_legacy_name(): void
+    {
+        $response = $this->get('/');
+        $response->assertStatus(200);
+
+        $response->assertSee('Tlaning Pertanian');
+        $response->assertDontSee('Training K3 Listrik');
+        $response->assertDontSee('K3 Listrik');
     }
 }

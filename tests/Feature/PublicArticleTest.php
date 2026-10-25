@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\User;
+use App\Services\SchemeService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -69,8 +70,12 @@ class PublicArticleTest extends TestCase
     {
         $response = $this->get(route('articles.index'));
         $response->assertOk();
-        $response->assertSee(route('program.show', 'training-ahli-k3-listrik'));
-        $response->assertSee(route('program.show', 'training-teknisi-k3-listrik'));
+
+        // Footer catalog links are derived from schemes.json — not hardcoded slugs.
+        $schemes = array_slice(app(SchemeService::class)->all(), 0, 3, true);
+        foreach (array_keys($schemes) as $slug) {
+            $response->assertSee(route('program.show', $slug));
+        }
     }
 
     // ─── Show Tests ───────────────────────────────────────────────────────────
@@ -154,54 +159,35 @@ class PublicArticleTest extends TestCase
 
     public function test_article_show_contains_whatsapp_cta(): void
     {
+        config(['services.whatsapp.phone' => '081299887766']);
+
         $article = $this->publishedArticle();
 
         $response = $this->get(route('articles.show', $article->slug));
         $response->assertOk();
-        $response->assertSee('wa.me', false);
+        $response->assertSee('wa.me/6281299887766', false);
     }
 
-    public function test_article_show_lists_contact_numbers_as_tel_links_right_after_cta(): void
+    public function test_article_show_degrades_to_non_link_text_when_no_phone_is_configured(): void
     {
-        $article = $this->publishedArticle([
-            'content' => '<p>Konten artikel edukasi keselamatan kerja kelistrikan.</p>'
-                // Simulate an Ollama-generated callout inside the body: wa.me links only.
-                . '<div class="my-6 p-4 rounded-xl bg-concrete-100 border border-teal-300 not-prose">'
-                . '<a href="https://wa.me/628118500177" target="_blank" rel="noopener noreferrer">Konsultasi WhatsApp</a>'
-                . '</div>',
-        ]);
+        config(['services.whatsapp.phone' => '']);
 
-        $numbers = ['08118500177', '081399810272', '087894580806', '087894580649'];
+        $article = $this->publishedArticle();
 
         $response = $this->get(route('articles.show', $article->slug));
         $response->assertOk();
 
         $html = $response->getContent();
 
-        $ctaPos = mb_strpos($html, 'Konsultasikan Kebutuhan Pelatihan');
-        $this->assertNotFalse($ctaPos, 'Consultation CTA should render on the article page.');
+        // No recipient — no clickable WhatsApp link anywhere on the page.
+        $this->assertStringNotContainsString('wa.me', $html);
 
-        $previousPos = $ctaPos;
-        foreach ($numbers as $number) {
-            // Rendered as a clickable tel: link, preserving the leading zero exactly.
-            $telLink = 'tel:' . $number;
-            $this->assertStringContainsString($telLink, $html, "Contact number {$number} should render as a tel: link.");
+        // Neutral non-link contact copy is rendered instead.
+        $this->assertStringContainsString('Hubungi admin untuk informasi konsultasi', $html);
 
-            $telPos = mb_strpos($html, $telLink);
-            $this->assertGreaterThan(
-                $previousPos,
-                $telPos,
-                "Contact number {$number} should appear immediately after the consultation CTA, in the listed order."
-            );
-
-            // Exactly one tel: link per number — no duplicated number displays.
-            $this->assertSame(
-                1,
-                substr_count($html, $telLink),
-                "Contact number {$number} should appear exactly once as a tel: link."
-            );
-
-            $previousPos = $telPos;
+        // Legacy numbers must never reappear as a fallback.
+        foreach (['08118500177', '081399810272', '087894580806', '087894580649'] as $number) {
+            $this->assertStringNotContainsString($number, $html);
         }
     }
 

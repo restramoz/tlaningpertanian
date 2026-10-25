@@ -62,21 +62,35 @@ class WhatsApp
     }
 
     /**
+     * Get the fallback contact text used when no valid phone is configured.
+     */
+    public static function fallbackText(): string
+    {
+        return (string) config(
+            'services.whatsapp.fallback_text',
+            'Hubungi admin untuk informasi konsultasi.'
+        );
+    }
+
+    /**
      * Get the default WhatsApp inquiry message from configuration.
      */
     public static function defaultMessage(): string
     {
         return (string) config(
             'services.whatsapp.default_message',
-             'Halo, saya ingin konsultasi mengenai pelatihan K3 Listrik.'
+            'Halo, saya ingin konsultasi mengenai pelatihan dan skema kompetensi pertanian.'
         );
     }
 
     /**
      * Build a secure, URL-encoded WhatsApp direct link (wa.me).
-     * Falls back to universal WhatsApp share link if phone is missing or invalid.
+     *
+     * Returns null when no valid phone is configured or supplied: callers must
+     * then render non-link contact text instead — never a clickable
+     * wa.me link without a recipient, and never a legacy hardcoded number.
      */
-    public static function url(?string $message = null, ?string $phone = null): string
+    public static function url(?string $message = null, ?string $phone = null): ?string
     {
         // If a phone is explicitly passed we normalize it directly; otherwise we
         // fall back to the configured phone value.
@@ -84,11 +98,13 @@ class WhatsApp
             ? static::normalizePhone($phone)
             : static::normalizePhone(config('services.whatsapp.phone'));
 
+        if ($normalizedPhone === null) {
+            return null;
+        }
+
         $rawMessage = !empty($message) ? $message : static::defaultMessage();
         $encodedMessage = rawurlencode($rawMessage);
 
-        return $normalizedPhone !== null
-            ? "https://wa.me/{$normalizedPhone}?text={$encodedMessage}"
-            : "https://wa.me/?text={$encodedMessage}";
+        return "https://wa.me/{$normalizedPhone}?text={$encodedMessage}";
     }
 }

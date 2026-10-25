@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $program['title'] . ' — ' . $city['name'])
-@section('meta_description', 'Informasi dan konsultasi ' . $program['title'] . ' untuk industri, fasilitas layanan kesehatan, dan tenaga profesional K3 di ' . $city['name'] . ', Provinsi ' . $city['province'] . '. Rincian jadwal, regulasi, dan persyaratan resmi.')
+@section('meta_description', 'Informasi dan konsultasi ' . $program['title'] . ' untuk mitra agribisnis, fasilitas produksi, dan tenaga profesional pertanian di ' . $city['name'] . ', Provinsi ' . $city['province'] . '. Rincian skema, unit kompetensi, dan persyaratan penyelenggaraan.')
 @section('wa_message', $waMessage)
 
 @section('content')
@@ -68,11 +68,11 @@
                     </div>
                     <div>
                         <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Sektor</div>
-                        <div class="text-lg sm:text-xl font-extrabold text-safety-orange mt-0.5">K3 Industri</div>
+                        <div class="text-lg sm:text-xl font-extrabold text-safety-orange mt-0.5">Pertanian &amp; Agribisnis</div>
                     </div>
                     <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Regulasi</div>
-                        <div class="text-lg sm:text-xl font-extrabold text-white mt-0.5">PP 50/2012</div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Sifat Program</div>
+                        <div class="text-lg sm:text-xl font-extrabold text-white mt-0.5">Skema Kompetensi</div>
                     </div>
                 </div>
             </div>
@@ -104,8 +104,8 @@
                                 </svg>
                             </div>
                             <div class="text-sm text-dark-mahogany leading-relaxed">
-                                <span class="font-bold text-industry-black block mb-0.5">Fokus Keselamatan Kerja Kelistrikan</span>
-                                Program diarahkan pada identifikasi bahaya kerja listrik, pengendalian risiko, pemeliharaan aman, dan kebiasaan kerja yang aman di wilayah {{ $city['name'] }} dan sekitarnya.
+                                <span class="font-bold text-industry-black block mb-0.5">Fokus Keselamatan Kerja Pertanian &amp; Agribisnis</span>
+                                Program diarahkan pada pemahaman skema kompetensi, praktik kerja yang baik, dan pemeliharaan keselamatan kerja pada kegiatan pertanian di wilayah {{ $city['name'] }} dan sekitarnya.
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                     Aplikasi Lapangan
                 </span>
                 <h2 id="tanggung-jawab-heading" class="mt-3 text-2xl sm:text-3xl font-extrabold text-industry-black tracking-tight">
-                    Peran &amp; Tanggung Jawab Pengelolaan K3 di {{ $city['name'] }}
+                    Peran &amp; Tanggung Jawab di {{ $city['name'] }}
                 </h2>
                 <p class="mt-4 text-base text-dark-mahogany leading-relaxed">
                     Berikut adalah gambaran ruang lingkup tugas dan tanggung jawab pengelolaan yang umumnya diemban oleh penanggung jawab teknis atau operasional pada layanan {{ $program['title'] }}.
@@ -187,7 +187,7 @@
                     <div class="text-sm space-y-1">
                         <h4 class="font-bold text-industry-black">Perhatian: Pembedaan Praktik Kerja Lapangan &amp; Persyaratan Sertifikasi / Dokumen</h4>
                         <p class="text-dark-mahogany leading-relaxed">
-                            Uraian peran di atas merupakan ringkasan umum lingkup operasional pengelolaan K3 dan alat berat. Persyaratan administratif formal ditentukan oleh skema layanan dan regulasi yang berlaku. Calon peserta atau badan usaha dari {{ $city['name'] }} dianjurkan mengonfirmasikan berkas pribadinya kepada konsultan kami sebelum proses pendaftaran.
+                            Uraian peran di atas merupakan ringkasan umum lingkup operasional pada sektor pertanian dan agribisnis. Persyaratan administratif formal ditentukan oleh skema layanan dan ketentuan yang berlaku. Calon peserta atau badan usaha dari {{ $city['name'] }} dianjurkan mengonfirmasikan berkas pribadinya kepada konsultan kami sebelum proses pendaftaran.
                         </p>
                     </div>
                 </div>
@@ -254,7 +254,7 @@
                             Cakupan Topik / Deliverables Inti
                         </h3>
                         <p class="text-xs text-neutral-600 mb-5 leading-relaxed">
-                            Materi dan deliverables mengacu pada regulasi K3 &amp; Norma Standar Kemnaker:
+                            Materi dan deliverables mengacu pada struktur skema kompetensi yang tersedia:
                         </p>
 
                         <ul class="space-y-3 mb-6" role="list">
@@ -277,7 +277,7 @@
         </div>
     </section>
 
-    <!-- SECTION 4: PROGRAM K3 LAINNYA DI KOTA INI (LIGHT SURFACE) -->
+    <!-- SECTION 4: SKEMA LAINNYA DI KOTA INI (LIGHT SURFACE) -->
     @if(isset($otherPrograms) && count($otherPrograms) > 0)
     <section id="program-lain" class="py-14 sm:py-20 bg-neutral-50 border-b border-neutral-200" aria-labelledby="program-lain-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -286,10 +286,10 @@
                     Pilihan Layanan Lain
                 </span>
                 <h2 id="program-lain-heading" class="mt-3 text-2xl sm:text-3xl font-extrabold text-industry-black tracking-tight">
-                    Program Pelatihan K3 Listrik Lainnya di {{ $city['name'] }}
+                    Skema Kompetensi Lainnya di {{ $city['name'] }}
                 </h2>
                 <p class="mt-4 text-base text-dark-mahogany">
-                    Bandingkan program pelatihan kelistrikan lainnya untuk menemukan program yang sesuai dengan peran dan kebutuhan tim Anda di {{ $city['name'] }}.
+                    Bandingkan skema kompetensi lainnya untuk menemukan program yang sesuai dengan kebutuhan tim Anda di {{ $city['name'] }}.
                 </p>
             </div>
 
@@ -364,7 +364,7 @@
                     Konsultasikan <span class="text-safety-orange">{{ $program['title'] }}</span> di {{ $city['name'] }}
                 </h2>
                 <p class="mt-4 text-base sm:text-lg text-neutral-200 leading-relaxed">
-                    Dapatkan kejelasan jadwal batch terdekat, pengecekan kelayakan dokumen perizinan K3, serta proposal resmi langsung melalui tim representasi kami di {{ $city['name'] }}.
+                    Dapatkan kejelasan skema yang sesuai, pengecekan persyaratan administrasi, serta proposal resmi langsung melalui tim representasi kami di {{ $city['name'] }}.
                 </p>
 
                 <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
