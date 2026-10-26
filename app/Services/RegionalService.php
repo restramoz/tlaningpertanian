@@ -28,7 +28,7 @@ class RegionalService
 
     private static function cachePath(): string
     {
-        return storage_path('framework/cache/k3_wilayah_cache.php');
+        return storage_path('framework/cache/tlaning_wilayah_cache.php');
     }
 
     private static function initialize(): void

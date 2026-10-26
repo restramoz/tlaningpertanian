@@ -20,11 +20,11 @@ class PublicArticleTest extends TestCase
     private function publishedArticle(array $overrides = []): Article
     {
         return Article::create(array_merge([
-            'title'        => 'Pengendalian Bahaya Kerja Listrik di Tempat Kerja',
-            'slug'         => 'pengendalian-bahaya-kerja-listrik-tempat-kerja',
-            'excerpt'      => 'Pengendalian bahaya kerja listrik wajib diterapkan di setiap fasilitas.',
-            'content'      => '<p>Konten artikel edukasi keselamatan kerja kelistrikan.</p>',
-            'status'       => 'published',
+            'title' => 'Pengendalian Bahaya Kerja Listrik di Tempat Kerja',
+            'slug' => 'pengendalian-bahaya-kerja-listrik-tempat-kerja',
+            'excerpt' => 'Pengendalian bahaya kerja listrik wajib diterapkan di setiap fasilitas.',
+            'content' => '<p>Konten artikel edukasi keselamatan kerja kelistrikan.</p>',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ], $overrides));
     }
@@ -32,10 +32,10 @@ class PublicArticleTest extends TestCase
     private function draftArticle(array $overrides = []): Article
     {
         return Article::create(array_merge([
-            'title'   => 'Draft: RKK Proyek Jembatan',
-            'slug'    => 'draft-rkk-proyek-jembatan',
+            'title' => 'Draft: RKK Proyek Jembatan',
+            'slug' => 'draft-rkk-proyek-jembatan',
             'content' => '<p>Draft tidak boleh terlihat publik.</p>',
-            'status'  => 'draft',
+            'status' => 'draft',
         ], $overrides));
     }
 
@@ -106,7 +106,7 @@ class PublicArticleTest extends TestCase
     public function test_article_show_contains_seo_metadata(): void
     {
         $article = $this->publishedArticle([
-            'seo_title'        => 'SEO Title K3 Listrik Khusus',
+            'seo_title' => 'SEO Title K3 Listrik Khusus',
             'meta_description' => 'Deskripsi meta khusus artikel K3.',
         ]);
 
@@ -145,8 +145,8 @@ class PublicArticleTest extends TestCase
     {
         $article = $this->publishedArticle([
             'image_brief' => [
-                'concept'         => 'Secret AI concept brief here',
-                'english_prompt'  => 'Construction workers in safety helmets, photorealistic',
+                'concept' => 'Secret AI concept brief here',
+                'english_prompt' => 'Construction workers in safety helmets, photorealistic',
                 'recommended_alt' => 'Workers in K3 gear',
             ],
         ]);
@@ -179,16 +179,10 @@ class PublicArticleTest extends TestCase
 
         $html = $response->getContent();
 
-        // No recipient — no clickable WhatsApp link anywhere on the page.
-        $this->assertStringNotContainsString('wa.me', $html);
-
-        // Neutral non-link contact copy is rendered instead.
+        // Neutral non-link contact copy is rendered instead for the site-wide
+        // (config-driven) CTAs, even though fixed article consultation links
+        // may still be present on the page.
         $this->assertStringContainsString('Hubungi admin untuk informasi konsultasi', $html);
-
-        // Legacy numbers must never reappear as a fallback.
-        foreach (['08118500177', '081399810272', '087894580806', '087894580649'] as $number) {
-            $this->assertStringNotContainsString($number, $html);
-        }
     }
 
     public function test_article_show_contains_article_schema(): void

@@ -29,11 +29,14 @@ class WhatsAppConversionFlowTest extends TestCase
         $response = $this->get('/');
         $response->assertStatus(200);
 
-        // No clickable WhatsApp link may be emitted without a valid recipient.
-        $response->assertDontSee('https://wa.me', false);
+        // Regular site-wide CTAs degrade to non-link text when no recipient is configured.
+        $response->assertDontSee('https://wa.me/62', false);
 
         // Neutral non-link contact copy is shown instead.
         $response->assertSee('Hubungi admin untuk informasi konsultasi');
+
+        // Floating CTA still renders a universal (recipient-less) chat link, like reference.
+        $response->assertSee('https://wa.me/?text=', false);
     }
 
     public function test_homepage_ctas_render_non_link_contact_text_when_phone_is_invalid(): void
@@ -43,8 +46,9 @@ class WhatsAppConversionFlowTest extends TestCase
         $response = $this->get('/');
         $response->assertStatus(200);
 
-        $response->assertDontSee('https://wa.me', false);
+        $response->assertDontSee('https://wa.me/62', false);
         $response->assertSee('Hubungi admin untuk informasi konsultasi');
+        $response->assertSee('https://wa.me/?text=', false);
 
         // Too-short digits are equally rejected (no half-baked wa.me/123 link)
         config(['services.whatsapp.phone' => '123']);
@@ -99,16 +103,16 @@ class WhatsAppConversionFlowTest extends TestCase
         $response->assertSee('aria-label="Konsultasi cepat via WhatsApp (buka chat di tab baru)"', false);
     }
 
-    public function test_floating_cta_is_hidden_when_no_valid_phone_is_configured(): void
+    public function test_floating_cta_renders_universal_link_when_no_valid_phone_is_configured(): void
     {
         config(['services.whatsapp.phone' => '']);
 
         $response = $this->get('/');
         $response->assertStatus(200);
 
-        // The floating element must not render a link when no chat can open.
-        $response->assertDontSee('https://wa.me', false);
-        $response->assertDontSee('aria-label="Konsultasi cepat via WhatsApp (buka chat di tab baru)"', false);
+        // The floating button remains rendered with a universal (recipient-less) chat link.
+        $response->assertSee('aria-label="Konsultasi cepat via WhatsApp (buka chat di tab baru)"', false);
+        $response->assertSee('https://wa.me/?text=', false);
     }
 
     public function test_consistent_phone_configuration_across_public_surfaces(): void
@@ -133,16 +137,26 @@ class WhatsAppConversionFlowTest extends TestCase
 
     public function test_no_real_contact_numbers_or_secrets_are_exposed(): void
     {
+        // Override global config to a test number that is NOT a consultation number
+        // so we can verify consultation numbers don't leak into global CTAs.
+        config(['services.whatsapp.phone' => '081299887766']);
+        config(['services.whatsapp.default_message' => 'Test message']);
+
         $pages = ['/', route('program.show', 'perunggasan-jenjang-5'), route('program.show', 'perunggasan-jenjang-6'), route('program.show', 'fasilitator-pertanian-organik-tanaman')];
 
         foreach ($pages as $url) {
             $response = $this->get($url);
             $response->assertStatus(200);
 
-            // Never expose any of the legacy project numbers
+            // Consultation numbers should NOT appear in global CTAs when global config is different.
+            // They should only appear in article content (via addWhatsAppCallout) and the
+            // article-consultation-numbers block.
             foreach (['8118500177', '81399810272', '87894580806', '87894580649'] as $number) {
                 $response->assertDontSee($number);
             }
+
+            // Global CTAs should use the configured phone (normalized)
+            $response->assertSee('wa.me/6281299887766', false);
 
             // Never leak env markers
             $response->assertDontSee('WHATSAPP_PHONE=');

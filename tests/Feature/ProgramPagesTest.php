@@ -126,7 +126,7 @@ class ProgramPagesTest extends TestCase
         $response = $this->get(route('program.show', 'perunggasan-jenjang-5'));
         $response->assertStatus(200);
 
-        $response->assertDontSee('https://wa.me', false);
+        $response->assertDontSee('https://wa.me/62', false);
         $response->assertSee('Hubungi admin untuk informasi konsultasi');
     }
 

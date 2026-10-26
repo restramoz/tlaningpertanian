@@ -31,11 +31,11 @@
                 <article class="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden flex flex-col hover:shadow-md hover:border-burnt-brick transition-all duration-200">
                     <div class="flex-grow">
                         @if($article->featured_image)
-                            <a href="{{ route('articles.show', $article->slug) }}" class="block h-48 overflow-hidden bg-neutral-100" tabindex="-1" aria-hidden="true">
+                            <a href="{{ route('articles.show', $article->slug) }}" class="block aspect-video overflow-hidden bg-neutral-100" tabindex="-1" aria-hidden="true">
                                 <img
                                     src="/{{ ltrim($article->featured_image, '/') }}"
                                     alt="{{ $article->title }}"
-                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                    class="card-image w-full h-full hover:scale-105 transition-transform duration-300"
                                     loading="lazy"
                                     width="600" height="400"
                                 >

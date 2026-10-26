@@ -117,7 +117,7 @@
                 <img
                     src="/{{ ltrim($article->featured_image, '/') }}"
                     alt="{{ $article->title }}"
-                    class="w-full h-auto max-h-[520px] object-cover"
+                    class="article-featured-image w-full"
                     loading="eager"
                 >
             </div>
@@ -235,7 +235,10 @@
 
         {{-- Direct phone contacts — rendered at the Blade layer so they appear on every --}}
         {{-- published article page, independent of how the article content was generated. --}}
-        <x-contact-numbers />
+        {{-- Avoid duplicating when a generated article already contains the block. --}}
+        @if(! str_contains((string) $article->content, 'article-consultation-numbers') && ! str_contains((string) $article->content, 'wa.me/628118500177'))
+            <x-contact-numbers />
+        @endif
     </div>
 </article>
 

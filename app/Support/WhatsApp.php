@@ -5,6 +5,17 @@ namespace App\Support;
 class WhatsApp
 {
     /**
+     * Fixed consultation numbers that must be offered on generated articles.
+     * These never override the configurable global WhatsApp settings.
+     */
+    public const ARTICLE_CONSULTATION_NUMBERS = [
+        '08118500177',
+        '081399810272',
+        '087894580806',
+        '087894580649',
+    ];
+
+    /**
      * Normalize a phone number to standard international digit format (E.164 without leading +).
      * Returns null if missing, empty, or structurally invalid.
      */
@@ -25,7 +36,7 @@ class WhatsApp
 
         $raw = $phone;
 
-        if (empty($raw) || !is_string($raw)) {
+        if (empty($raw) || ! is_string($raw)) {
             return null;
         }
 
@@ -38,11 +49,11 @@ class WhatsApp
 
         // Normalize common Indonesian typo "6208..." -> "628..."
         if (str_starts_with($digits, '620')) {
-            $digits = '62' . substr($digits, 3);
+            $digits = '62'.substr($digits, 3);
         }
         // Normalize Indonesian national format "08..." -> "628..."
         elseif (str_starts_with($digits, '0')) {
-            $digits = '62' . substr($digits, 1);
+            $digits = '62'.substr($digits, 1);
         }
 
         // Validate international phone number length (E.164 limits)
@@ -102,9 +113,29 @@ class WhatsApp
             return null;
         }
 
-        $rawMessage = !empty($message) ? $message : static::defaultMessage();
+        $rawMessage = ! empty($message) ? $message : static::defaultMessage();
         $encodedMessage = rawurlencode($rawMessage);
 
         return "https://wa.me/{$normalizedPhone}?text={$encodedMessage}";
+    }
+
+    /**
+     * The fixed consultation numbers rendered for generated articles.
+     *
+     * @return array<int, string>
+     */
+    public static function consultationNumbers(): array
+    {
+        return self::ARTICLE_CONSULTATION_NUMBERS;
+    }
+
+    /**
+     * Build a recipient-only wa.me URL for one of the consultation numbers.
+     */
+    public static function consultationUrl(string $phone): ?string
+    {
+        $normalized = static::normalizePhone($phone);
+
+        return $normalized === null ? null : "https://wa.me/{$normalized}";
     }
 }

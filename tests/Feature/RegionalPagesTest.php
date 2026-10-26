@@ -215,7 +215,7 @@ class RegionalPagesTest extends TestCase
         ] as $url) {
             $response = $this->get($url);
             $response->assertStatus(200);
-            $response->assertDontSee('https://wa.me', false);
+            $response->assertDontSee('https://wa.me/62', false);
             $response->assertSee('Hubungi admin untuk informasi konsultasi');
         }
     }

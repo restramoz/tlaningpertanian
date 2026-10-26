@@ -109,3 +109,126 @@
 .border-dark-mahogany { border-color: #0F5132; }
 .border-burnt-brick { border-color: #15803D; }
 .border-safety-orange { border-color: #F59E0B; }
+
+/* ============================================================
+   GLOBAL RESPONSIVE IMAGE RULES
+   Ensure all images scale within containers, never overflow
+   ============================================================ */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Hero/banner images that should fill fixed-ratio containers */
+.img-hero,
+.img-banner,
+.img-card-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Article/content images that should preserve natural proportions */
+.img-content {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+/* Prevent horizontal overflow from images in flex/grid containers */
+.flex img,
+.grid img {
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* Fix for images in fixed-height containers (cards, banners) */
+[class*="aspect-"] img,
+[class*="max-h-"] img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ensure lazy-loaded images don't cause layout shift */
+img[loading="lazy"] {
+    min-height: 1px;
+}
+
+/* Responsive hero image sizing */
+.hero-image-mobile {
+    aspect-ratio: 16/9;
+    max-height: 220px;
+}
+@media (min-width: 640px) {
+    .hero-image-mobile {
+        max-height: 260px;
+    }
+}
+@media (min-width: 768px) {
+    .hero-image-mobile {
+        max-height: 300px;
+    }
+}
+
+.hero-image-desktop {
+    aspect-ratio: 16/9;
+    max-height: 420px;
+}
+@media (min-width: 1024px) {
+    .hero-image-desktop {
+        max-height: 480px;
+    }
+}
+@media (min-width: 1280px) {
+    .hero-image-desktop {
+        max-height: 520px;
+    }
+}
+
+/* Card image sizing */
+.card-image {
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Article featured image */
+.article-featured-image {
+    aspect-ratio: 16/9;
+    max-height: 400px;
+    object-fit: cover;
+    object-position: center;
+}
+@media (max-width: 639px) {
+    .article-featured-image {
+        max-height: 280px;
+    }
+}
+
+/* Statistics grid - prevent text clipping */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+@media (min-width: 640px) {
+    .stats-grid {
+        gap: 1.5rem;
+    }
+}
+.stat-item {
+    min-width: 0;
+}
+.stat-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.stat-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

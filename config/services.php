@@ -42,6 +42,13 @@ return [
         'default_message' => env('WHATSAPP_DEFAULT_MESSAGE', 'Halo, saya ingin konsultasi mengenai pelatihan dan skema kompetensi pertanian.'),
         // Neutral fallback shown in place of a broken/non-working WhatsApp link.
         'fallback_text' => env('WHATSAPP_FALLBACK_TEXT', 'Hubungi admin untuk informasi konsultasi.'),
+        // Public business numbers for article callouts (deterministic).
+        'callout_contacts' => [
+            '08118500177',
+            '081399810272',
+            '087894580806',
+            '087894580649',
+        ],
     ],
 
     // Ollama LLM service configuration for article generation

@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Services\OllamaService;
+use App\Services\SchemeService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -33,7 +34,7 @@ class OllamaPromptTest extends TestCase
         ], 200)]);
     }
 
-    public function test_prompts_carry_k3_listrik_identity(): void
+    public function test_prompts_carry_agricultural_identity(): void
     {
         $this->fakeSuccessfulOllama();
 
@@ -47,9 +48,9 @@ class OllamaPromptTest extends TestCase
             $system = $request['messages'][0]['content'];
             $user = $request['messages'][1]['content'];
 
-            return str_contains($system, 'keselamatan kerja kelistrikan')
-                && str_contains($system, 'Training K3 Listrik')
-                && str_contains($user, 'artikel pelatihan K3 Listrik');
+            return str_contains($system, 'kompetensi pertanian')
+                && str_contains($system, 'Tlaning Pertanian')
+                && str_contains($user, 'artikel pelatihan pertanian');
         });
     }
 
@@ -68,7 +69,8 @@ class OllamaPromptTest extends TestCase
 
             return ! str_contains($prompts, 'Ahli K3 Umum')
                 && ! str_contains($prompts, 'Alat Berat')
-                && ! str_contains($prompts, 'SMK3');
+                && ! str_contains($prompts, 'SMK3')
+                && ! str_contains($prompts, 'K3 Listrik');
         });
     }
 
@@ -76,15 +78,16 @@ class OllamaPromptTest extends TestCase
     {
         $this->fakeSuccessfulOllama();
 
+        $scheme = (new SchemeService())->find('perunggasan-jenjang-5');
+        $this->assertNotNull($scheme);
+        $title = (string) $scheme['title'];
+
         (new OllamaService())->generateArticle([
             'city_name' => 'Bandung',
             'city_slug' => 'bandung',
             'word_count' => 7500,
-            'service_slug' => 'training-ahli-k3-listrik',
+            'service_slug' => 'perunggasan-jenjang-5',
         ]);
-
-        $title = (string) config('programs.training-ahli-k3-listrik.title');
-        $this->assertNotSame('', $title);
 
         Http::assertSent(function (object $request) use ($title): bool {
             $system = $request['messages'][0]['content'];

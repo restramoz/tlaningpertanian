@@ -27,49 +27,49 @@
             </svg>
         </div>
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
             <div class="max-w-3xl">
                 <!-- Program Badge -->
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-burnt-brick border border-burnt-brick/80 text-white text-xs sm:text-sm font-semibold mb-6 shadow-sm">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-burnt-brick border border-burnt-brick/80 text-white text-xs sm:text-sm font-semibold mb-5 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-safety-orange animate-pulse"></span>
                     <span>{{ $program['badge'] }}</span>
                 </div>
 
-                <!-- Main Heading -->
-                <h1 id="program-hero-heading" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight uppercase">
+                <!-- Main Heading - Responsive with clamp() -->
+                <h1 id="program-hero-heading" class="font-extrabold tracking-tight text-white leading-tight uppercase text-[clamp(1.75rem,4.5vw,2.5rem)] sm:text-[clamp(2rem,5vw,3rem)] lg:text-[clamp(2.25rem,4.5vw,3.5rem)]">
                     {{ $program['hero_heading'] }} <span class="text-safety-orange">{{ $program['hero_highlight'] }}</span>
                 </h1>
 
                 <!-- Subheading -->
-                <p class="mt-6 text-base sm:text-lg lg:text-xl text-neutral-200 leading-relaxed">
+                <p class="mt-5 text-sm sm:text-base lg:text-lg text-neutral-200 leading-relaxed max-w-2xl">
                     {{ $program['hero_subheading'] }}
                 </p>
 
-                <!-- Action Buttons -->
-                <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                    <x-wa-cta variant="primary" size="lg" :message="$program['wa_message']" :label="'Konsultasi ' . explode('(', $program['title'])[0]" class="shadow-md bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold" />
-                    <x-button href="#informasi-resmi" variant="outline" size="lg" class="text-white border-2 border-neutral-400 hover:bg-neutral-800">
+                <!-- Action Buttons - Full width on mobile -->
+                <div class="mt-7 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full">
+                    <x-wa-cta variant="primary" size="lg" :message="$program['wa_message']" :label="'Konsultasi ' . explode('(', $program['title'])[0]" class="w-full sm:w-auto shadow-md bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold" />
+                    <x-button href="#informasi-resmi" variant="outline" size="lg" class="w-full sm:w-auto text-white border-2 border-neutral-400 hover:bg-neutral-800">
                         Rincian &amp; Persyaratan
                     </x-button>
                 </div>
 
-                <!-- Key Attributes Bar -->
-                <div class="mt-12 pt-8 border-t border-neutral-800 grid grid-cols-2 sm:grid-cols-4 gap-6">
-                    <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Kategori</div>
-                        <div class="text-lg sm:text-xl font-extrabold text-safety-orange mt-0.5 truncate">{{ $program['level'] }}</div>
+                <!-- Key Attributes Bar - More compact on mobile -->
+                <div class="mt-8 pt-6 border-t border-neutral-800 grid grid-cols-2 gap-4 sm:gap-6">
+                    <div class="min-w-0">
+                        <div class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-neutral-400">Kategori</div>
+                        <div class="text-base sm:text-lg font-extrabold text-safety-orange mt-0.5 truncate">{{ $program['level'] }}</div>
                     </div>
-                    <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Sektor</div>
-                        <div class="text-lg sm:text-xl font-extrabold text-white mt-0.5">Pertanian &amp; Agribisnis</div>
+                    <div class="min-w-0">
+                        <div class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-neutral-400">Sektor</div>
+                        <div class="text-base sm:text-lg font-extrabold text-white mt-0.5">Pertanian &amp; Agribisnis</div>
                     </div>
-                    <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Sifat Program</div>
-                        <div class="text-lg sm:text-xl font-extrabold text-safety-orange mt-0.5">Skema Kompetensi</div>
+                    <div class="min-w-0">
+                        <div class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-neutral-400">Sifat Program</div>
+                        <div class="text-base sm:text-lg font-extrabold text-safety-orange mt-0.5">Skema Kompetensi</div>
                     </div>
-                    <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-neutral-400">Penyelenggara</div>
-                        <div class="text-lg sm:text-xl font-extrabold text-white mt-0.5 truncate">{{ $program['lsp'] ?? 'Perlu konfirmasi' }}</div>
+                    <div class="min-w-0">
+                        <div class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-neutral-400">Penyelenggara</div>
+                        <div class="text-base sm:text-lg font-extrabold text-white mt-0.5 truncate">{{ $program['lsp'] ?? 'Perlu konfirmasi' }}</div>
                     </div>
                 </div>
             </div>
@@ -364,7 +364,7 @@
                     Dapatkan kejelasan jadwal pelaksanaan terdekat, review data teknis awal, dan penawaran proposal resmi dari konsultan kami.
                 </p>
 
-                <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <div class="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
                     <x-wa-cta variant="primary" size="lg" :message="$program['wa_message']" label="Hubungi Tim Konsultan" class="w-full sm:w-auto shadow-lg bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold" />
                     <x-button :href="route('home')" variant="outline" size="lg" class="w-full sm:w-auto text-white border-2 border-neutral-400 hover:bg-neutral-800">
                         Kembali ke Beranda

@@ -211,7 +211,7 @@
                             name="title"
                             required
                             value="{{ old('title') }}"
-                            placeholder="Contoh: Penerapan Rencana Keselamatan Konstruksi di Surabaya"
+                            placeholder="Contoh: Panduan Skema Kompetensi Pertanian di Surabaya"
                             class="w-full px-3.5 py-2.5 text-sm font-bold rounded-lg border border-concrete-300 focus:outline-none focus:ring-2 focus:ring-safety-500"
                         >
                     </div>
@@ -226,7 +226,7 @@
                             id="slug"
                             name="slug"
                             value="{{ old('slug') }}"
-                            placeholder="penerapan-rencana-keselamatan-konstruksi..."
+                            placeholder="panduan-skema-kompetensi-pertanian..."
                             class="w-full px-3.5 py-2 text-xs font-mono rounded-lg border border-concrete-300 bg-concrete-50 focus:outline-none focus:ring-2 focus:ring-safety-500"
                         >
                     </div>

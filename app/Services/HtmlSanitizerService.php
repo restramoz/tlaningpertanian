@@ -120,6 +120,12 @@ class HtmlSanitizerService
             $cleanHtml .= $dom->saveHTML($child);
         }
 
+        // Remove format-artifact empty square brackets that leaked into text.
+        $cleanHtml = preg_replace('/\[\s*\]/u', '', $cleanHtml) ?? $cleanHtml;
+
+        // Remove HTML tags that leaked as escaped text (artifact), e.g. &lt;script&gt;.
+        $cleanHtml = preg_replace('/&lt;\/?[a-zA-Z][^&]{0,200}&gt;/u', '', $cleanHtml) ?? $cleanHtml;
+
         return trim($cleanHtml);
     }
 

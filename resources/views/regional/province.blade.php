@@ -21,26 +21,30 @@
                 <rect width="100%" height="100%" fill="url(#grid-p)" />
             </svg>
         </div>
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
             <div class="max-w-3xl">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-burnt-brick border border-burnt-brick/80 text-white text-xs sm:text-sm font-semibold mb-6 shadow-sm">
+                <!-- Mobile hero image - Responsive with aspect-ratio -->
+                <div class="lg:hidden mb-5 -mx-4 sm:-mx-6 lg:-mx-8">
+                    <img src="{{ asset('images/home/hero.webp') }}" alt="Aktivitas pertanian di Provinsi {{ $province['name'] }}" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" class="hero-image-mobile w-full object-cover object-center rounded-xl" />
+                </div>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-burnt-brick border border-burnt-brick/80 text-white text-xs sm:text-sm font-semibold mb-5 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-safety-orange animate-pulse"></span>
                     Informasi Skema &amp; Layanan Konsultasi
                 </div>
-                <h1 id="prov-hero-heading" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight uppercase">
+                <h1 id="prov-hero-heading" class="font-extrabold tracking-tight text-white leading-tight uppercase text-[clamp(1.75rem,4.5vw,2.5rem)] sm:text-[clamp(2rem,5vw,3rem)] lg:text-[clamp(2.25rem,4.5vw,3.5rem)]">
                     Skema Kompetensi<br><span class="text-safety-orange">Pertanian Provinsi {{ $province['name'] }}</span>
                 </h1>
                 <p class="mt-6 text-base sm:text-lg text-neutral-200 leading-relaxed">
                     Pusat informasi skema kompetensi dan program pelatihan pertanian untuk badan usaha, fasilitas produksi, dan mitra agribisnis di <strong class="text-white">Provinsi {{ $province['name'] }}</strong>.
                 </p>
-                <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                    <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Wilayah {{ $province['name'] }}" class="bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold shadow-lg" />
+                <div class="mt-7 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full">
+                    <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Wilayah {{ $province['name'] }}" class="w-full sm:w-auto bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold shadow-lg" />
                 </div>
-                <div class="mt-10 pt-8 border-t border-neutral-800 grid grid-cols-2 sm:grid-cols-4 gap-6">
-                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Pulau</div><div class="text-lg font-extrabold text-white mt-0.5">{{ $province['island'] }}</div></div>
-                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Kab/Kota</div><div class="text-lg font-extrabold text-safety-orange mt-0.5">{{ $province['total_cities'] }}</div></div>
-                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Layanan</div><div class="text-lg font-extrabold text-white mt-0.5">{{ count($programs) }} Skema</div></div>
-                    <div><div class="text-xs text-neutral-400 uppercase tracking-wider">Lingkup</div><div class="text-lg font-extrabold text-safety-orange mt-0.5">Pertanian &amp; Agribisnis</div></div>
+                <div class="mt-8 pt-6 border-t border-neutral-800 grid grid-cols-2 gap-4 sm:gap-6">
+                    <div class="min-w-0"><div class="text-[10px] sm:text-xs text-neutral-400 uppercase tracking-wider">Pulau</div><div class="text-sm sm:text-base font-extrabold text-white mt-0.5">{{ $province['island'] }}</div></div>
+                    <div class="min-w-0"><div class="text-[10px] sm:text-xs text-neutral-400 uppercase tracking-wider">Kab/Kota</div><div class="text-sm sm:text-base font-extrabold text-safety-orange mt-0.5">{{ $province['total_cities'] }}</div></div>
+                    <div class="min-w-0"><div class="text-[10px] sm:text-xs text-neutral-400 uppercase tracking-wider">Layanan</div><div class="text-sm sm:text-base font-extrabold text-white mt-0.5">{{ count($programs) }} Skema</div></div>
+                    <div class="min-w-0"><div class="text-[10px] sm:text-xs text-neutral-400 uppercase tracking-wider">Lingkup</div><div class="text-sm sm:text-base font-extrabold text-safety-orange mt-0.5">Pertanian &amp; Agribisnis</div></div>
                 </div>
             </div>
         </div>
@@ -63,12 +67,12 @@
     {{-- Program Links --}}
     <section id="program" class="py-14 sm:py-20 bg-white border-b border-neutral-200" aria-labelledby="prov-program-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-3xl mb-12">
+            <div class="max-w-3xl mb-10">
                 <span class="text-xs font-bold uppercase tracking-wider text-burnt-brick bg-neutral-100 px-3 py-1 rounded-full border border-burnt-brick/20">Layanan Unggulan</span>
-                <h2 id="prov-program-heading" class="mt-3 text-2xl sm:text-3xl font-extrabold text-industry-black tracking-tight">
+                <h2 id="prov-program-heading" class="mt-3 font-extrabold text-industry-black tracking-tight text-[clamp(1.5rem,4vw,2rem)] sm:text-[clamp(1.75rem,4.5vw,2.25rem)]">
                     Skema Kompetensi &amp; Layanan di {{ $province['name'] }}
                 </h2>
-                <p class="mt-4 text-base text-dark-mahogany">Pilih skema kompetensi atau layanan konsultasi sesuai kebutuhan organisasi Anda.</p>
+                <p class="mt-3 text-sm sm:text-base text-dark-mahogany">Pilih skema kompetensi atau layanan konsultasi sesuai kebutuhan organisasi Anda.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -154,9 +158,9 @@
                 <p class="mt-4 text-base text-neutral-200 leading-relaxed">
                     Hubungi kami untuk informasi skema kompetensi, halaman program, atau kebutuhan konsultasi di Provinsi {{ $province['name'] }}.
                 </p>
-                <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Sekarang" class="bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold shadow-lg" />
-                    <x-button :href="route('home')" variant="outline" size="lg" class="text-white border-2 border-neutral-400 hover:bg-neutral-800">Kembali ke Beranda</x-button>
+                <div class="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
+                    <x-wa-cta variant="primary" size="lg" :message="$waMessage" label="Konsultasi Sekarang" class="w-full sm:w-auto bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold shadow-lg" />
+                    <x-button :href="route('home')" variant="outline" size="lg" class="w-full sm:w-auto text-white border-2 border-neutral-400 hover:bg-neutral-800">Kembali ke Beranda</x-button>
                 </div>
             </div>
         </div>

@@ -19,108 +19,13 @@ class OllamaService
 
     protected int $timeout;
 
-    /**
-     * Standard core topics for Training K3 Listrik Corp.
-     *
-     * @var array<int, array{name: string, focus: string}>
-     */
-    public const CORE_TOPICS = [
-        [
-            'name' => 'Pengelolaan Bahaya dan Risiko Kerja Kelistrikan',
-            'focus' => 'Identifikasi bahaya kerja listrik, penilaian risiko kelistrikan, hierarki pengendalian, dan prosedur kerja aman untuk peran penyelola keselamatan kelistrikan',
-        ],
-        [
-            'name' => 'Praktik Kerja Aman untuk Teknisi Instalasi Listrik',
-            'focus' => 'Pengamanan dan verifikasi energi, penggunaan alat ukur elektrik, pemeliharaan yang aman, saat memeriksa instalasi listrik',
-        ],
-        [
-            'name' => 'Operasional dan Pemeliharaan Kelistrikan Gedung',
-            'focus' => 'Panel distribusi gedung, building services, pemantauan beban penting, pemeliharaan preventif, dan koordinasi antar sistem bangunan',
-        ],
-        [
-            'name' => 'Diagnostik Sistem Kelistrikan Kendaraan',
-            'focus' => 'Baterai, sistem pengisian dan starting, sirkuit konsumen, jaringan data kendaraan, serta pencarian titik gangguan secara aman',
-        ],
-        [
-            'name' => 'Pemeriksaan dan Penilaian Instalasi Listrik',
-            'focus' => 'Rencana inspeksi, daftar periksa, pengujian dasar instalasi, klasifikasi temuan, dan pelaporan hasil pemeriksaan',
-        ],
-        [
-            'name' => 'Pengawasan Pekerjaan pada Instalasi Bersumber Energi Listrik',
-            'focus' => 'Telaah izin bekerja, verifikasi kesiapan kerja, penegakan prosedur di lapangan, dan penghentian pekerjaan berbahaya',
-        ],
-        [
-            'name' => 'Kepemimpinan Tim Pemeliharaan Kelistrikan',
-            'focus' => 'Penugasan kerja aman, kontrol mutu pemeliharaan, komunikasi risiko, dan pembinaan personel listrik',
-        ],
-        [
-            'name' => 'Operasi Sehari-hari Panel dan Peralatan Listrik',
-            'focus' => 'Prosedur pensaklaran, pemindahan suplai, pemantauan parameter, log operasional, dan respons awal gangguan',
-        ],
-        [
-            'name' => 'Manajemen Fungsi Kelistrikan di Tingkat Organisasi',
-            'focus' => 'Strategi pemeliharaan, anggaran, indikator keselamatan dan keandalan, serta tata kelola keselamatan kerja listrik',
-        ],
-        [
-            'name' => 'Dukungan Administratif untuk Unit Kelistrikan',
-            'focus' => 'Administrasi dokumen kerja, pengelolaan material dan suku cadang elektrik, pencatatan data pemeliharaan, dan koordinasi lintas fungsi',
-        ],
-        [
-            'name' => 'Rangkaian dan Modul Kendali Elektronik',
-            'focus' => 'Komponen elektronik, catu daya, sensor dan modul kendali, pengukuran sinyal, dan penanganan aman perangkat elektronik',
-        ],
-        [
-            'name' => 'Sistem Kelistrikan Kendaraan Operasional',
-            'focus' => 'Baterai dan starting kapasitas besar, rangkaian kontrol dan sensor unit, alternator, serta kerja aman di area unit operasional',
-        ],
-        [
-            'name' => 'Sistem Pembangkit Listrik Fotovoltaik',
-            'focus' => 'Komponen sistem tenaga surya, rangkaian DC dan AC, proteksi sisi DC, pemeriksaan sistem, dan keselamatan kerja di atap',
-        ],
-        [
-            'name' => 'Perencanaan Kebutuhan Tenaga Listrik Fasilitas',
-            'focus' => 'Estimasi dan pemetaan beban, konfigurasi suplai dan cadangan, keandalan, serta dokumentasi perencanaan kelistrikan',
-        ],
-        [
-            'name' => 'Kendali Otomatis pada Lini Produksi',
-            'focus' => 'Sensor, aktuator, interlock, urutan kerja proses, alarm status, proteksi keselamatan mesin, dan pemecahan gangguan otomasi',
-        ],
-        [
-            'name' => 'Diagnostik Gangguan Kelistrikan Tingkat Lanjut',
-            'focus' => 'Gangguan kompleks dan berulang, analisis akar penyebab, rekaman alarm, koordinasi pemeliharaan besar, dan pembinaan teknisi',
-        ],
-        [
-            'name' => 'Pemantauan Supervisi Data Kelistrikan Terpusat',
-            'focus' => 'Konsep telemetri, alarm, layar operator, perintah jarak jauh, telaah kejadian, dan disiplin pengendalian terpusat',
-        ],
-        [
-            'name' => 'Sistem Pembumian Instalasi Listrik',
-            'focus' => 'Fungsi dan komponen pembumian, penyambungan, korosi, pengukuran tahanan pembumian, dan perannya pada proteksi orang',
-        ],
-        [
-            'name' => 'Rangkaian Kendali Konvensional Tanpa Pengendali Terprogram',
-            'focus' => 'Relai, kontaktor, timer, interlock terpasang kabel, pembacaan skema, dan penelusuran gangguan langkah demi langkah',
-        ],
-        [
-            'name' => 'Pengendali Terprogram dari Dasar Pembacaan Program',
-            'focus' => 'Struktur program, input-output, dasar ladder, diagnosa perangkat, disiplin cadangan program, dan alur persetujuan perubahan',
-        ],
-        [
-            'name' => 'Distribusi Daya Fasilitas Produksi',
-            'focus' => 'Alur daya pabrik dari catu utama ke beban motor, proteksi per tingkat, keseimbangan fasa, pencatatan energi, dan kerja aman produksi',
-        ],
-        [
-            'name' => 'Instalasi Listrik Bangunan dari Sirkuit Proteksi',
-            'focus' => 'Jalur kabel, sirkuit, perangkat proteksi, mutu pemasangan dan terminasi, penandaan sirkuit, serta pemeriksaan instalasi bangunan',
-        ],
-    ];
-
-    public function __construct()
+    public function __construct(?SchemeService $schemes = null)
     {
         $this->apiKey = config('services.ollama.key');
         $this->baseUrl = config('services.ollama.base_url');
         $this->model = config('services.ollama.model');
         $this->timeout = (int) config('services.ollama.timeout', 60);
+        $this->schemes = $schemes ?? app(SchemeService::class);
     }
 
     /**
@@ -151,30 +56,40 @@ class OllamaService
                 ->toArray();
         }
 
-        // Find first unused core topic
-        foreach (self::CORE_TOPICS as $core) {
+        // Pick an unused real scheme from the authoritative catalog.
+        foreach ($this->schemes->all() as $scheme) {
+            $name = (string) ($scheme['title'] ?? '');
+            if ($name === '') {
+                continue;
+            }
+
             $isUsed = false;
             foreach ($existingTitles as $title) {
-                if (stripos($title, $core['name']) !== false) {
+                if (stripos((string) $title, $name) !== false) {
                     $isUsed = true;
                     break;
                 }
             }
 
             if (! $isUsed) {
+                $units = array_values($scheme['units'] ?? []);
+                $unitLabels = array_slice(array_map(
+                    static fn (array $u): string => trim((string) ($u['code'] ?? '')).' — '.trim((string) ($u['name'] ?? '')),
+                    $units
+                ), 0, 5);
+
                 return [
-                    'topic' => "Panduan {$core['name']} untuk Proyek di {$cityName}",
-                    'focus' => $core['focus'],
+                    'topic' => "Panduan {$name} untuk Proyek di {$cityName}",
+                    'focus' => 'Unit kompetensi terkait: '.implode(', ', $unitLabels),
                 ];
             }
         }
 
-        // If all core topics are covered, return an advanced operational angle
         $count = count($existingTitles) + 1;
 
         return [
-            'topic' => "Strategi Keselamatan Kerja Kelistrikan di {$cityName} (Bagian {$count})",
-            'focus' => 'Penerapan sistem manajemen keselamatan kerja kelistrikan, identifikasi bahaya, investigasi insiden, dan pemenuhan ketentuan K3 tempat kerja',
+            'topic' => "Strategi Pengembangan Kompetensi Pertanian di {$cityName} (Bagian {$count})",
+            'focus' => 'Pengembangan kompetensi pertanian dan agribisnis berbasis skema kompetensi',
         ];
     }
 
@@ -184,10 +99,10 @@ class OllamaService
     protected function serviceContextLine(?string $serviceName): string
     {
         if ($serviceName === null || $serviceName === '') {
-            return 'Tidak ada program spesifik; gunakan konteks pelatihan K3 Listrik secara umum.';
+            return 'Tidak ada program spesifik; gunakan konteks pelatihan dan skema kompetensi pertanian Tlaning Pertanian secara umum.';
         }
 
-        return "Program spesifik: {$serviceName}. Konsentrasikan isi artikel pada lingkup program tersebut.";
+        return "Program spesifik: {$serviceName}. Konsentrasikan isi artikel pada lingkup skema kompetensi tersebut.";
     }
 
     /**
@@ -230,8 +145,8 @@ class OllamaService
         $serviceSlug = isset($params['service_slug']) ? (string) $params['service_slug'] : null;
         $serviceName = null;
         if ($serviceSlug !== null && $serviceSlug !== '') {
-            $service = config("programs.{$serviceSlug}");
-            $serviceName = is_array($service) && ! empty($service['title']) ? (string) $service['title'] : null;
+            $scheme = $this->schemes->find($serviceSlug);
+            $serviceName = is_array($scheme) && ! empty($scheme['title']) ? (string) $scheme['title'] : null;
         }
 
         // Auto topic selection if not manually provided
@@ -241,20 +156,20 @@ class OllamaService
             $focus = $selected['focus'];
         } else {
             $topic = trim((string) $params['topic']);
-            $focus = $params['focus'] ?? 'Kompetensi K3 Listrik sesuai kebutuhan tempat kerja';
+            $focus = $params['focus'] ?? ('Kompetensi pertanian dan unit terkait skema '.($serviceName ?: 'Tlaning Pertanian'));
         }
 
         $locationContext = $districtName ? "Kecamatan {$districtName}, {$cityName}" : $cityName;
 
         $systemPrompt = <<<PROMPT
-Anda adalah konsultan dan instruktur K3 (Keselamatan dan Kesehatan Kerja) Indonesia yang berspesialisasi pada keselamatan kerja kelistrikan.
-Tugas Anda adalah menulis artikel edukatif dan otoritatif dalam Bahasa Indonesia formal mengenai Training K3 Listrik. Struktur artikel harus mencakup: Pembuka (intro), Silabus, Materi, Isi Konten, dan Penutup (conclusion).
+Anda adalah konsultan dan instruktur kompetensi pertanian Indonesia yang berspesialisasi pada pelatihan dan skema kompetensi pertanian.
+Tugas Anda adalah menulis artikel edukatif dan otoritatif dalam Bahasa Indonesia formal mengenai pelatihan pertanian dan skema kompetensi pertanian Tlaning Pertanian. Struktur artikel harus mencakup: Pembuka (intro), Silabus, Materi, Isi Konten, dan Penutup (conclusion).
 PERTIMBANGAN PROGRAM: {$this->serviceContextLine($serviceName)}
 
 ATURAN KUALITATAS & GAYA PENULISAN:
-1. Nada bahasa: Profesional, lugas, mengalir alami, berbobot untuk pengambil keputusan dan praktisi kelistrikan.
+1. Nada bahasa: Profesional, lugas, mengalir alami, berbobot untuk pengambil keputusan dan praktisi pertanian.
 2. Dilarang menggunakan filler AI klise seperti "Di era modern saat ini", "Tak dapat dipungkiri", atau kalimat berulang.
-3. Rujuk regulasi K3 hanya jika Anda yakin terhadap sumber resminya. Jangan mengarang nomor regulasi, pasal, jadwal tetap, biaya fiktif, alamat kantor palsu, atau klaim akreditasi/otorisasi.
+3. Rujuk regulasi pertanian hanya jika Anda yakin terhadap sumber resminya. Jangan mengarang nomor regulasi, pasal, jadwal tetap, biaya fiktif, alamat kantor palsu, atau klaim akreditasi/otorisasi.
 4. Jangan mengarang jadwal tetap, biaya fiktif, alamat kantor palsu, atau klaim akreditasi sepihak. Arahkan konsultasi resmi melalui WhatsApp.
 5. Gunakan tag HTML semantik: <h2>, <h3>, <p>, <ul>, <ol>, <li>, <strong>, <blockquote>, <table><thead><tr><th>...</th></tr></thead><tbody><tr><td>...</td></tr></tbody></table>.
 6. Panjang target: Sekitar {$wordCount} kata (antara 6.000 hingga 9.000 kata).
@@ -269,15 +184,15 @@ Format skema JSON yang wajib dipatuhi:
   "slug": "slug-url-ramah-seo",
   "excerpt": "Ringkasan eksekutif 2-3 kalimat mengenai intisari artikel.",
   "content": "<p>Isi artikel lengkap dalam HTML semantik...</p>",
-  "seo_title": "SEO Title Max 60 Karakter | Training K3 Listrik",
+  "seo_title": "SEO Title Max 60 Karakter | Tlaning Pertanian",
   "meta_description": "Meta description persuasif max 155 karakter.",
   "suggested_faqs": [
     {"q": "Pertanyaan 1...", "a": "Jawaban ringkas 1..."},
     {"q": "Pertanyaan 2...", "a": "Jawaban ringkas 2..."}
   ],
   "image_brief": {
-    "concept": "Konsep visual foto keselamatan kerja kelistrikan industri atau pelatihan K3 Listrik dalam Bahasa Indonesia",
-    "english_prompt": "Detailed descriptive photo prompt in English for Google Flow: realistic photography, occupational electrical safety briefing in a modern Indonesian industrial facility, technician wearing personal protective equipment inspecting an electrical distribution panel, technician and supervisor discussing lockout procedure, industrial lighting, realistic, sharp focus, no text overlays, 8k",
+    "concept": "Konsep visual foto aktivitas pertanian, pelatihan, dan pengembangan kompetensi pertanian dalam Bahasa Indonesia",
+    "english_prompt": "Detailed descriptive photo prompt in English for Google Flow: realistic photography of Indonesian agricultural training, farmers and instructors in a farm or training field, crop cultivation and competency development, natural daylight, no text overlays, 8k",
     "aspect_ratio": "16:9",
     "recommended_alt": "Alt text ramah SEO dalam Bahasa Indonesia"
   }
@@ -287,7 +202,7 @@ PROMPT;
         $serviceLine = $serviceName !== null ? "- Program Spesifik: {$serviceName}\n" : '';
 
         $userPrompt = <<<PROMPT
-Silakan buat artikel pelatihan K3 Listrik lengkap dengan rincian berikut:
+Silakan buat artikel pelatihan pertanian dan skema kompetensi lengkap dengan rincian berikut:
 - Topik Artikel: {$topic}
 - Fokus Materi: {$focus}
 - Lokasi Target: {$locationContext}
@@ -381,6 +296,9 @@ PROMPT;
             // After validation, inject five WhatsApp callouts.
             $result = $this->addWhatsAppCallout($result, $cityName, $serviceName);
 
+            // Deterministically append the four article consultation links.
+            $result = $this->addArticleConsultationBlock($result);
+
             return $result;
         } catch (ConnectionException $e) {
             Log::error('Ollama connection timeout or unreachable: '.$e->getMessage());
@@ -460,8 +378,8 @@ PROMPT;
                 $imageBrief = [];
             }
 
-            $concept = $imageBrief['concept'] ?? "Penerapan kompetensi K3 Listrik di {$cityName}";
-            $englishPrompt = $imageBrief['english_prompt'] ?? 'Professional documentary photograph of an electrical safety training environment in Indonesia, technician in personal protective equipment performing a safe inspection of an electrical installation, realistic industrial lighting, no text';
+            $concept = $imageBrief['concept'] ?? "Penerapan kompetensi pertanian di {$cityName}";
+            $englishPrompt = $imageBrief['english_prompt'] ?? 'Professional documentary photograph of an agricultural training environment in Indonesia, farmers and instructors in a field, realistic natural lighting, no text';
             $aspectRatio = $imageBrief['aspect_ratio'] ?? '16:9';
             $recommendedAlt = $imageBrief['recommended_alt'] ?? "Pelatihan {$brandLine} di {$cityName}";
 
@@ -508,10 +426,10 @@ PROMPT;
             'excerpt' => Str::limit(strip_tags($fallbackHtml), 180),
             'content' => $fallbackHtml,
             'seo_title' => Str::limit("{$fallbackTopic} | {$brandLine}", 60),
-            'meta_description' => Str::limit("Panduan {$fallbackTopic} untuk kompetensi K3 Listrik di {$cityName}.", 155),
+            'meta_description' => Str::limit("Panduan {$fallbackTopic} untuk kompetensi pertanian di {$cityName}.", 155),
             'suggested_faqs' => [],
             'image_brief' => [
-                'concept' => "Kompetensi K3 Listrik di {$cityName}",
+                'concept' => "Kompetensi pertanian di {$cityName}",
                 'english_prompt' => 'Professional photograph of an electrical safety inspection or briefing inside a modern industrial facility in Indonesia, realistic lighting, no text',
                 'aspect_ratio' => '16:9',
                 'recommended_alt' => "{$brandLine} - {$fallbackTopic}",
@@ -523,17 +441,206 @@ PROMPT;
      * Resolved display line used in article fallbacks: the specific program
      * title when available, otherwise the general brand.
      */
-    protected function brandLine(?string $serviceName): string
+    /**
+     * Deterministically append the four article WhatsApp consultation numbers.
+     *
+     * @param  array<string, mixed>  $result
+     * @return array<string, mixed>
+     */
+  
+    /**
+     * Append exactly four clickable WhatsApp phone numbers to generated articles.
+     *
+     * @param array<string, mixed> $result
+     * @return array<string, mixed>
+     */
+    
+/**
+ * Append exactly four clickable WhatsApp phone numbers to generated articles.
+ *
+ * @param array<string, mixed> $result
+ * @return array<string, mixed>
+ */
+protected function addArticleConsultationBlock(array $result): array
+{
+    $content = (string) ($result['content'] ?? '');
+    $consultationNumbers = WhatsApp::consultationNumbers();
+
+    // Check whether all four numbers already exist as direct clickable links.
+    $allLinksExist = true;
+
+    foreach ($consultationNumbers as $number) {
+        $url = WhatsApp::consultationUrl($number);
+
+        if ($url === null) {
+            $allLinksExist = false;
+            break;
+        }
+
+        $pattern = '~<a\b[^>]*href=["\']'
+            . preg_quote($url, '~')
+            . '["\'][^>]*>\s*'
+            . preg_quote($number, '~')
+            . '\s*</a>~i';
+
+        if (! preg_match($pattern, $content)) {
+            $allLinksExist = false;
+            break;
+        }
+    }
+
+    // Preserve an already complete block without introducing duplicates.
+    if (
+        $allLinksExist
+        && str_contains($content, 'article-consultation-numbers')
+    ) {
+        $result['content'] = $content;
+
+        return $result;
+    }
+
+    // Remove old or incomplete consultation markup before rebuilding it.
+    $content = $this->removeStaleConsultationMarkup($content);
+
+    $links = [];
+
+    foreach ($consultationNumbers as $number) {
+        $url = WhatsApp::consultationUrl($number);
+
+        if ($url === null) {
+            continue;
+        }
+
+        $links[] = '<a href="' . e($url) . '" target="_blank" '
+            . 'rel="noopener noreferrer" '
+            . 'class="inline-flex items-center justify-center px-3 py-2 '
+            . 'rounded-lg bg-white border border-neutral-200 '
+            . 'text-sm font-bold text-dark-mahogany hover:text-burnt-brick '
+            . 'transition-colors min-h-[44px] tracking-wide">'
+            . e($number)
+            . '</a>';
+    }
+
+    if ($links !== []) {
+        $block = '<div class="article-consultation-numbers my-6 p-4 sm:p-6 '
+            . 'rounded-2xl bg-neutral-50 border border-neutral-200 not-prose">'
+            . '<h3 class="text-xs font-bold text-dark-mahogany uppercase '
+            . 'tracking-wider">Konsultasi via WhatsApp</h3>'
+            . '<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 '
+            . 'md:grid-cols-4 gap-2.5 sm:gap-3">'
+            . implode('', $links)
+            . '</div></div>';
+
+        $content = rtrim($content) . "\n" . $block;
+    }
+
+    $result['content'] = $content;
+
+    return $result;
+}
+
+
+        
+           
+
+    /**
+     * Remove stale/partial consultation markup so it cannot duplicate or linger.
+     */
+    protected function removeStaleConsultationMarkup(string $content): string
     {
-        return ($serviceName === null || $serviceName === '') ? 'Training K3 Listrik' : $serviceName;
+        // 1. Remove the deprecated generic "Konsultasikan Hasil Generate" button.
+        $content = preg_replace(
+            '/<(?:button|a)\b[^>]*>.*?Konsultasikan Hasil Generate.*?<\/(?:button|a)>/is',
+            '',
+            $content
+        ) ?? $content;
+
+        // 2. Remove any existing article-consultation-numbers wrapper blocks,
+        //    including partial ones with nested <div> elements.
+        $content = $this->removeNestedDivBlocks($content, 'article-consultation-numbers');
+
+        return $content;
     }
 
     /**
-     * Add context-aware consultation callouts without leaking hardcoded numbers.
+     * Remove every <div ...marker...>...</div> block, correctly handling
+     * nested <div> elements.
+     */
+    protected function removeNestedDivBlocks(string $content, string $marker): string
+    {
+        $markerLen = strlen($marker);
+        while (true) {
+            $markerPos = stripos($content, $marker);
+            if ($markerPos === false) {
+                break;
+            }
+
+            // Locate the opening <div of the wrapper.
+            $openStart = strrpos(substr($content, 0, $markerPos), '<div');
+            if ($openStart === false) {
+                // Could not find a wrapper div; strip the marker and continue.
+                $content = substr_replace($content, '', $markerPos, $markerLen);
+
+                continue;
+            }
+
+            // Ensure the found marker sits inside the opening tag (before its '>').
+            $tagEnd = strpos($content, '>', $openStart);
+            if ($tagEnd === false || $tagEnd < $markerPos) {
+                $content = substr_replace($content, '', $markerPos, $markerLen);
+
+                continue;
+            }
+
+            // Walk forward, tracking div depth, to find the matching </div>.
+            $depth = 0;
+            $i = $openStart;
+            $len = strlen($content);
+            $closeEnd = null;
+            while ($i < $len) {
+                if (strtolower(substr($content, $i, 4)) === '<div' && ($i + 4 >= $len || ! ctype_alpha($content[$i + 4]))) {
+                    $depth++;
+                    $i += 4;
+
+                    continue;
+                }
+                if (strtolower(substr($content, $i, 6)) === '</div>') {
+                    $depth--;
+                    $i += 6;
+                    if ($depth === 0) {
+                        $closeEnd = $i;
+                        break;
+                    }
+
+                    continue;
+                }
+                $i++;
+            }
+
+            if ($closeEnd === null) {
+                // Unbalanced; strip the whole remainder to be safe? Just strip marker.
+                $content = substr_replace($content, '', $markerPos, $markerLen);
+                break;
+            }
+
+            $content = substr($content, 0, $openStart).substr($content, $closeEnd);
+        }
+
+        return $content;
+    }
+
+    protected function brandLine(?string $serviceName): string
+    {
+        return ($serviceName === null || $serviceName === '') ? 'Tlaning Pertanian' : $serviceName;
+    }
+
+    /**
+     * Add context-aware consultation callouts using article-specific numbers.
      *
-     * Uses the single central services.whatsapp configuration. When no valid
-     * phone is configured, the callout degrades to neutral non-link contact
-     * text — never a wa.me link without a recipient and never a legacy number.
+     * Uses the fixed consultation numbers from WhatsApp::consultationNumbers().
+     * Each of the five callouts rotates through the four available numbers.
+     * All links are clickable with valid wa.me URLs, target="_blank", and
+     * rel="noopener noreferrer".
      *
      * @param  array<string, mixed>  $result
      * @return array<string, mixed>
@@ -543,30 +650,8 @@ PROMPT;
         $content = $this->sanitizeContent($result['content'] ?? '');
         $brandLine = $this->brandLine($serviceName);
 
-        // Single authoritative source: services.whatsapp.phone.
-        $phone = config('services.whatsapp.phone', '');
-        $waUrl = WhatsApp::url(null, $phone);
-
-        if ($waUrl !== null) {
-            $message = "Halo, saya ingin konsultasi mengenai {$brandLine} untuk wilayah {$cityName}.";
-            $waUrl = WhatsApp::url($message, $phone);
-            $calloutAction = '<a href="'.$waUrl.'" target="_blank" rel="noopener noreferrer"'
-                .' class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs transition shrink-0">'
-                .'<span>Konsultasi WhatsApp</span> &rarr;'
-                .'</a>';
-        } else {
-            $calloutAction = '<span class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-concrete-100 border border-concrete-300 text-dark-mahogany font-bold text-xs shrink-0">'
-                .\App\Support\WhatsApp::fallbackText()
-                .'</span>';
-        }
-
-        $calloutHtml = '<div class="my-6 p-4 rounded-xl bg-concrete-100 border border-concrete-300 flex flex-col sm:flex-row items-center justify-between gap-4 not-prose">'
-            .'<div>'
-            .'<div class="text-xs font-bold uppercase tracking-wider text-teal-700">Konsultasi '.$brandLine.' '.$cityName.'</div>'
-            .'<div class="text-sm font-semibold text-navy-950">Butuh informasi pelatihan atau skema kompetensi pertanian?</div>'
-            .'</div>'
-            .$calloutAction
-            .'</div>';
+        // Use article-specific consultation numbers (fixed set, never from global config).
+        $consultationNumbers = WhatsApp::consultationNumbers();
 
         // Split content by closing paragraph tags to insert between sections.
         $paragraphEnds = [];
@@ -591,7 +676,32 @@ PROMPT;
         }
 
         // Insert callouts in reverse order so offsets remain valid.
-        foreach (array_reverse($insertPoints, true) as $position) {
+        foreach (array_reverse($insertPoints, true) as $index => $position) {
+            // Rotate through the four consultation numbers.
+            $number = $consultationNumbers[$index % count($consultationNumbers)];
+            $url = WhatsApp::consultationUrl($number);
+
+            // Should always be valid since consultationNumbers are validated constants.
+            if ($url === null) {
+                continue;
+            }
+
+            $message = "Halo, saya ingin konsultasi mengenai {$brandLine} untuk wilayah {$cityName}.";
+            $waUrl = WhatsApp::url($message, $number);
+
+            $calloutAction = '<a href="'.$waUrl.'" target="_blank" rel="noopener noreferrer"'
+                .' class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs transition shrink-0">'
+                .'<span>Konsultasi WhatsApp</span> &rarr;'
+                .'</a>';
+
+            $calloutHtml = '<div class="my-6 p-4 rounded-xl bg-concrete-100 border border-concrete-300 flex flex-col sm:flex-row items-center justify-between gap-4 not-prose">'
+                .'<div>'
+                .'<div class="text-xs font-bold uppercase tracking-wider text-teal-700">Konsultasi '.$brandLine.' '.$cityName.'</div>'
+                .'<div class="text-sm font-semibold text-navy-950">Butuh informasi pelatihan atau skema kompetensi pertanian?</div>'
+                .'</div>'
+                .$calloutAction
+                .'</div>';
+
             if ($position !== null) {
                 $content = substr_replace($content, $calloutHtml, $position, 0);
             } else {
@@ -600,6 +710,7 @@ PROMPT;
         }
 
         $result['content'] = $content;
+
         return $result;
     }
 
@@ -675,7 +786,7 @@ PROMPT;
     /**
      * Count words in a string while ignoring HTML tags and decoding entities.
      *
-     * @param string $content HTML content
+     * @param  string  $content  HTML content
      * @return int Number of words
      */
     public function countWords(string $content): int
@@ -686,7 +797,8 @@ PROMPT;
         $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         // Normalize whitespace and split on word boundaries
         $words = preg_split('/\s+/u', trim($text));
-        return $words === false ? 0 : count(array_filter($words, fn($w) => $w !== ''));
+
+        return $words === false ? 0 : count(array_filter($words, fn ($w) => $w !== ''));
     }
 
     /**
@@ -698,7 +810,7 @@ PROMPT;
         // Pass 1: backslash + 2 or more letters (LaTeX commands) -> escape backslash.
         $content = preg_replace_callback(
             '~\\\\[A-Za-z]{2,}~',
-            static fn ($m) => '\\\\' . substr($m[0], 1),
+            static fn ($m) => '\\\\'.substr($m[0], 1),
             $content
         ) ?? $content;
 
@@ -716,9 +828,10 @@ PROMPT;
                     return $esc;
                 }
                 if (strpos($esc, '\\u') === 0) {
-                    return '\\\\' . substr($esc, 1);
+                    return '\\\\'.substr($esc, 1);
                 }
-                return '\\\\' . substr($esc, 1);
+
+                return '\\\\'.substr($esc, 1);
             },
             $content
         ) ?? $content;
@@ -789,20 +902,21 @@ PROMPT;
             $inner = preg_replace('/\\\\frac\{([^}]*)\}\{([^}]*)\}/u', '$1/$2', $inner) ?? $inner;
             $inner = str_replace(
                 ['\\rightarrow', '\\leftarrow', '\\Rightarrow', '\\Leftarrow', '\\leftrightarrow',
-                 '\\times', '\\cdot', '\\pm', '\\leq', '\\geq', '\\neq', '\\approx',
-                 '\\sum', '\\prod', '\\int', '\\infty',
-                 '\\alpha', '\\beta', '\\gamma', '\\delta', '\\Delta', '\\sigma',
-                 '\\mu', '\\lambda', '\\pi', '\\theta', '\\phi', '\\Sigma',
-                 '_', '^', '\\', '{', '}'],
+                    '\\times', '\\cdot', '\\pm', '\\leq', '\\geq', '\\neq', '\\approx',
+                    '\\sum', '\\prod', '\\int', '\\infty',
+                    '\\alpha', '\\beta', '\\gamma', '\\delta', '\\Delta', '\\sigma',
+                    '\\mu', '\\lambda', '\\pi', '\\theta', '\\phi', '\\Sigma',
+                    '_', '^', '\\', '{', '}'],
                 ['→', '←', '⇒', '⇐', '↔',
-                 '×', '·', '±', '≤', '≥', '≠', '≈',
-                 '∑', '∏', '∫', '∞',
-                 'α', 'β', 'γ', 'δ', 'Δ', 'σ',
-                 'μ', 'λ', 'π', 'θ', 'φ', 'Σ',
-                 '', '', '', '', ''],
+                    '×', '·', '±', '≤', '≥', '≠', '≈',
+                    '∑', '∏', '∫', '∞',
+                    'α', 'β', 'γ', 'δ', 'Δ', 'σ',
+                    'μ', 'λ', 'π', 'θ', 'φ', 'Σ',
+                    '', '', '', '', ''],
                 $inner
             );
             $inner = trim($inner);
+
             return $inner !== '' ? $inner : '';
         }, $content) ?? $content;
 
@@ -819,7 +933,7 @@ PROMPT;
         // \frac{a}{b} \u2192 a/b
         $content = preg_replace_callback(
             '/\\\\frac\{([^}]*)\}\{([^}]*)\}/u',
-            fn ($m) => $m[1] . '/' . $m[2],
+            fn ($m) => $m[1].'/'.$m[2],
             $content
         ) ?? $content;
 
@@ -831,13 +945,13 @@ PROMPT;
         // ---------------------------------------------------------------
         $content = str_replace(
             ['\\rightarrow', '\\leftarrow', '\\Rightarrow', '\\Leftarrow', '\\leftrightarrow',
-             '\\times', '\\cdot', '\\leq', '\\geq', '\\neq', '\\approx',
-             '\\infty', '\\pm', '\\alpha', '\\beta', '\\gamma', '\\delta',
-             '\\Delta', '\\sigma', '\\mu', '\\lambda', '\\pi', '\\theta', '\\phi', '\\Sigma'],
+                '\\times', '\\cdot', '\\leq', '\\geq', '\\neq', '\\approx',
+                '\\infty', '\\pm', '\\alpha', '\\beta', '\\gamma', '\\delta',
+                '\\Delta', '\\sigma', '\\mu', '\\lambda', '\\pi', '\\theta', '\\phi', '\\Sigma'],
             ['→', '←', '⇒', '⇐', '↔',
-             '×', '·', '≤', '≥', '≠', '≈',
-             '∞', '±', 'α', 'β', 'γ', 'δ',
-             'Δ', 'σ', 'μ', 'λ', 'π', 'θ', 'φ', 'Σ'],
+                '×', '·', '≤', '≥', '≠', '≈',
+                '∞', '±', 'α', 'β', 'γ', 'δ',
+                'Δ', 'σ', 'μ', 'λ', 'π', 'θ', 'φ', 'Σ'],
             $content
         );
 
@@ -855,6 +969,9 @@ PROMPT;
         // Phase 7: Normalize excess whitespace (preserve HTML tags)
         // ---------------------------------------------------------------
         $content = preg_replace('/[ \t]{2,}/', ' ', $content) ?? $content;
+
+        // Remove format-artifact square brackets (e.g. "[]" leftovers).
+        $content = preg_replace('/\[\s*\]/u', '', $content) ?? $content;
 
         return $content;
     }

@@ -28,55 +28,58 @@
             </svg>
         </div>
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-28">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
             <div class="max-w-3xl">
-                <div class="lg:hidden mb-8">
-                    <img src="{{ asset('images/home/hero.webp') }}" alt="Aktivitas pertanian Indonesia: petani bekerja di sawah" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" class="w-full rounded-2xl shadow-xl object-cover aspect-video" />
+                <!-- Mobile Hero Image - Responsive with aspect-ratio -->
+                <div class="lg:hidden mb-6">
+                    <img src="{{ asset('images/home/hero.webp') }}" alt="Aktivitas pertanian Indonesia: petani bekerja di sawah" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" class="hero-image-mobile w-full object-cover object-center rounded-xl shadow-md" />
                 </div>
                 <!-- Focus Badge -->
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dark-mahogany text-white text-xs sm:text-sm font-semibold mb-6 shadow-sm">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dark-mahogany text-white text-xs sm:text-sm font-semibold mb-5 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-safety-orange animate-pulse"></span>
                     Pelatihan &amp; Skema Kompetensi Pertanian
                 </div>
 
-                <!-- Main Heading -->
-                <h1 id="hero-heading" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-industry-black leading-tight uppercase">
+                <!-- Main Heading - Responsive with clamp() -->
+                <h1 id="hero-heading" class="font-extrabold tracking-tight text-industry-black leading-tight uppercase text-[clamp(1.875rem,4.5vw,3.125rem)] sm:text-[clamp(2.25rem,5vw,3.75rem)] lg:text-[clamp(2.5rem,4.5vw,4.5rem)]">
                     Pelatihan <span class="text-burnt-brick">Pertanian</span> &amp; Skema Kompetensi
                 </h1>
 
                 <!-- Subheading / Paragraph -->
-                <p class="mt-6 text-base sm:text-lg lg:text-xl text-dark-mahogany leading-relaxed">
+                <p class="mt-5 text-sm sm:text-base lg:text-lg text-dark-mahogany leading-relaxed max-w-2xl">
                     Jelajahi skema kompetensi pertanian dengan rincian unit lengkap, atau konsultasikan kebutuhan pelatihan dan agribisnis Anda — dari hulu produksi hingga pengolahan dan pemasaran hasil pertanian.
                 </p>
 
-                <!-- Actions -->
-                <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                    <x-wa-cta variant="primary" size="lg" label="Konsultasi Program via WhatsApp" class="shadow-md bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold" />
-                    <x-button href="#pelatihan" variant="secondary" size="lg" class="bg-white hover:bg-neutral-100 text-dark-mahogany font-bold border-2 border-dark-mahogany">
+                <!-- Actions - Full width on mobile, auto on larger screens -->
+                <div class="mt-7 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full">
+                    <x-wa-cta variant="primary" size="lg" label="Konsultasi Program via WhatsApp" class="w-full sm:w-auto shadow-md bg-safety-orange hover:bg-burnt-brick text-industry-black hover:text-white font-bold" />
+                    <x-button href="#pelatihan" variant="secondary" size="lg" class="w-full sm:w-auto bg-white hover:bg-neutral-100 text-dark-mahogany font-bold border-2 border-dark-mahogany">
                         Lihat Program Pelatihan
                     </x-button>
                 </div>
 
-                <div class="hidden lg:block">
-                    <img src="{{ asset('images/home/hero.webp') }}" alt="Aktivitas pertanian Indonesia: petani bekerja di sawah" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" class="w-full rounded-2xl shadow-xl object-cover aspect-video" />
+                <!-- Desktop Hero Image - Full width with proper responsive handling -->
+                <div class="hidden lg:block mt-10 -mx-4 sm:-mx-6 lg:-mx-8">
+                    <img src="{{ asset('images/home/hero.webp') }}" alt="Aktivitas pertanian Indonesia: petani bekerja di sawah" width="1600" height="900" loading="eager" fetchpriority="high" decoding="async" class="hero-image-desktop w-full object-cover object-center" />
                 </div>
-                <!-- Value Highlights Grid -->
-                <div class="mt-12 pt-8 border-t border-neutral-300 grid grid-cols-2 sm:grid-cols-4 gap-6">
-                    <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-burnt-brick">{{ count($allPrograms) }}</div>
-                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Skema Kompetensi</div>
+
+                <!-- Value Highlights Grid - Responsive with min-width protection -->
+                <div class="mt-8 pt-6 border-t border-neutral-300 stats-grid">
+                    <div class="stat-item min-w-0">
+                        <div class="stat-value text-xl sm:text-2xl font-extrabold text-burnt-brick">{{ count($allPrograms) }}</div>
+                        <div class="stat-label text-[11px] sm:text-xs text-dark-mahogany mt-0.5 font-semibold leading-snug">Skema Kompetensi</div>
                     </div>
-                    <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-industry-black">Lingkup</div>
-                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Pertanian &amp; Agribisnis</div>
+                    <div class="stat-item min-w-0">
+                        <div class="stat-value text-xl sm:text-2xl font-extrabold text-industry-black">Lingkup</div>
+                        <div class="stat-label text-[11px] sm:text-xs text-dark-mahogany mt-0.5 font-semibold leading-snug">Pertanian &amp; Agribisnis</div>
                     </div>
-                    <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-burnt-brick">Konsultasi</div>
-                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Konfirmasi penyelenggaraan</div>
+                    <div class="stat-item min-w-0">
+                        <div class="stat-value text-xl sm:text-2xl font-extrabold text-burnt-brick">Konsultasi</div>
+                        <div class="stat-label text-[11px] sm:text-xs text-dark-mahogany mt-0.5 font-semibold leading-snug">Konfirmasi penyelenggaraan</div>
                     </div>
-                    <div>
-                        <div class="text-2xl sm:text-3xl font-extrabold text-industry-black">Nasional</div>
-                        <div class="text-xs sm:text-sm text-dark-mahogany mt-1 font-semibold">Jangkauan {{ count($provinces) }} Provinsi</div>
+                    <div class="stat-item min-w-0">
+                        <div class="stat-value text-xl sm:text-2xl font-extrabold text-industry-black">Nasional</div>
+                        <div class="stat-label text-[11px] sm:text-xs text-dark-mahogany mt-0.5 font-semibold leading-snug">Jangkauan {{ count($provinces) }} Provinsi</div>
                     </div>
                 </div>
             </div>
@@ -111,7 +114,7 @@
                     </p>
                 </div>
                 <div class="hidden md:block">
-                    <img src="{{ asset('images/home/agribisnis.webp') }}" alt="Aktivitas pertanian dan pengembangan kompetensi agribisnis" width="900" height="600" loading="lazy" decoding="async" class="w-full rounded-2xl shadow-md object-cover aspect-[3/2]" />
+                    <img src="{{ asset('images/home/agribisnis.webp') }}" alt="Aktivitas pertanian dan pengembangan kompetensi agribisnis" width="900" height="600" loading="lazy" decoding="async" class="w-full h-auto max-h-[320px] md:max-h-[400px] object-cover object-center rounded-2xl shadow-md" />
                 </div>
             </div>
 
@@ -169,7 +172,7 @@
                     </p>
                 </div>
                 <div class="hidden md:block">
-                    <img src="{{ asset('images/home/lsp.webp') }}" alt="Konteks pelatihan pertanian dan pengembangan kompetensi" width="900" height="600" loading="lazy" decoding="async" class="w-full rounded-2xl shadow-md object-cover aspect-[3/2]" />
+                    <img src="{{ asset('images/home/lsp.webp') }}" alt="Konteks pelatihan pertanian dan pengembangan kompetensi" width="900" height="600" loading="lazy" decoding="async" class="w-full h-auto max-h-[320px] md:max-h-[400px] object-cover object-center rounded-2xl shadow-md" />
                 </div>
             </div>
 
@@ -227,7 +230,7 @@
             </div>
 
             <div class="mb-8 hidden md:block">
-                <img src="{{ asset('images/home/training.webp') }}" alt="Pembinaan dan pelatihan kompetensi pertanian" width="900" height="600" loading="lazy" decoding="async" class="w-full rounded-2xl shadow-md object-cover aspect-[3/1]" />
+                <img src="{{ asset('images/home/training.webp') }}" alt="Pembinaan dan pelatihan kompetensi pertanian" width="900" height="600" loading="lazy" decoding="async" class="w-full h-auto max-h-[280px] md:max-h-[350px] object-cover object-center rounded-2xl shadow-md" />
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Pillar 1 -->
@@ -351,7 +354,7 @@
                 Konsultasi &amp; Pendaftaran Program
             </span>
             <div class="mb-8 hidden md:block">
-                <img src="{{ asset('images/home/consult.webp') }}" alt="Konsultasi pengembangan kompetensi pertanian" width="900" height="600" loading="lazy" decoding="async" class="mx-auto w-full max-w-2xl rounded-2xl shadow-xl object-cover aspect-[3/2]" />
+                <img src="{{ asset('images/home/consult.webp') }}" alt="Konsultasi pengembangan kompetensi pertanian" width="900" height="600" loading="lazy" decoding="async" class="mx-auto w-full max-w-2xl h-auto max-h-[320px] md:max-h-[400px] rounded-2xl shadow-xl object-cover object-center" />
             </div>
             <h2 id="cta-heading" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight uppercase">
                 Bangun Kompetensi Pertanian Tim Anda
